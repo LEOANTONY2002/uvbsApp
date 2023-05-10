@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/colors.dart';
 import 'package:uvbs/components/stream/favVideoCard.dart';
-import 'package:uvbs/components/stream/videoCard.dart';
 import 'package:uvbs/providers/favProvider.dart';
 import 'package:uvbs/providers/provider.dart';
 

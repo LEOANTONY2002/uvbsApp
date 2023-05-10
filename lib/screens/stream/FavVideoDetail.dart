@@ -1,10 +1,11 @@
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/providers/favProvider.dart';
 import 'package:uvbs/providers/provider.dart';
 import 'package:uvbs/providers/userProvider.dart';
-import 'package:video_player/video_player.dart';
-import 'package:flick_video_player/flick_video_player.dart';
+// import 'package:video_player/video_player.dart';
+// import 'package:flick_video_player/flick_video_player.dart';
 
 class FavVideoDetail extends StatefulWidget {
   dynamic vid;
@@ -19,29 +20,49 @@ class _FavVideoDetailState extends State<FavVideoDetail> {
   bool loading = false;
   bool play = false;
 
-  late VideoPlayerController _controller;
-  late FlickManager flickManager;
+  // late VideoPlayerController _controller;
+  // late FlickManager flickManager;
+  late BetterPlayerController _betterPlayerController;
 
-  void initPlayer() {
-    _controller = VideoPlayerController.network(
-        Provider.of<AppProvider>(context, listen: false).video?['videoUrl'])
-      ..initialize().then((_) {
-        flickManager = FlickManager(videoPlayerController: _controller);
-        setState(() {});
-      });
-  }
+  // void initPlayer() {
+  //   _controller = VideoPlayerController.network(
+  //       Provider.of<AppProvider>(context, listen: false).video?['videoUrl'])
+  //     ..initialize().then((_) {
+  //       flickManager = FlickManager(videoPlayerController: _controller);
+  //       setState(() {});
+  //     });
+  // }
 
   @override
   void initState() {
     super.initState();
-    initPlayer();
+    // initPlayer();
+    BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
+      BetterPlayerDataSourceType.network,
+      Provider.of<AppProvider>(context, listen: false).video?['videoUrl'],
+      // videoFormat: BetterPlayerVideoFormat.ss,
+      // headers: {
+      //   "User-Agent":
+      //       "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0",
+      //   "Content-Type": "application/vnd.apple.mpegurl"
+      // },
+    );
+
+    _betterPlayerController = BetterPlayerController(
+        const BetterPlayerConfiguration(
+            autoDispose: true,
+            showPlaceholderUntilPlay: true,
+            controlsConfiguration: BetterPlayerControlsConfiguration(
+                controlBarColor: Color.fromARGB(39, 0, 0, 0))),
+        betterPlayerDataSource: betterPlayerDataSource);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
-    flickManager.dispose();
+    // _controller.dispose();
+    // flickManager.dispose();
+    _betterPlayerController.dispose();
   }
 
   @override
@@ -146,8 +167,10 @@ class _FavVideoDetailState extends State<FavVideoDetail> {
                                   BorderRadius.all(Radius.circular(100))),
                           child: IconButton(
                               onPressed: () {
-                                _controller.dispose();
-                                flickManager.dispose();
+                                // _controller.dispose();
+                                // flickManager.dispose();
+                                _betterPlayerController.dispose();
+
                                 Navigator.pop(context);
                               },
                               alignment: Alignment.center,
@@ -158,24 +181,18 @@ class _FavVideoDetailState extends State<FavVideoDetail> {
                               )),
                         ),
                         play
-                            ? Container(
-                                child: _controller.value.isInitialized
-                                    ? Material(
-                                        elevation: 30,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(30)),
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(20)),
-                                            child: FlickVideoPlayer(
-                                                flickManager: flickManager)))
-                                    : Container(
-                                        alignment: Alignment.center,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: CircularProgressIndicator(),
-                                      ),
+                            ? Material(
+                                elevation: 30,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(30)),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                  // child: FlickVideoPlayer(
+                                  //     flickManager: flickManager),
+                                  child: BetterPlayer(
+                                      controller: _betterPlayerController),
+                                ),
                               )
                             : GestureDetector(
                                 onTap: () {

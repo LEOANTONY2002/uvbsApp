@@ -38,7 +38,7 @@ main() async {
         ChangeNotifierProvider(create: (_) => FavoriteProvider()),
         ChangeNotifierProvider(create: (_) => PlaylistProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
   FlutterNativeSplash.remove();

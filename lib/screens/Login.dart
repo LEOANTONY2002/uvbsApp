@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/colors.dart';
 import 'package:uvbs/graphql/mutations/user.dart';
@@ -18,6 +19,8 @@ class _LoginState extends State<Login> {
   int screen = 0;
   Error error = Error(open: false, msg: "");
   bool loading = false;
+  String tc = "";
+  String pp = "";
 
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -26,9 +29,8 @@ class _LoginState extends State<Login> {
 
   bool _passwordVisible = false;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final GlobalKey<ScaffoldState> _scaffoldKeyLogin =
-      new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKeyLogin = GlobalKey<ScaffoldState>();
 
   PersistentBottomSheetController openBottomSheet(key, String msg) {
     return key.currentState!.showBottomSheet(
@@ -54,6 +56,29 @@ class _LoginState extends State<Login> {
               ),
             ),
         backgroundColor: const Color.fromARGB(255, 1, 47, 83));
+  }
+
+  void termsAndConditions() async {
+    final data =
+        await rootBundle.loadString('lib/assets/text/terms-conditions.txt');
+    setState(() {
+      tc = data;
+    });
+  }
+
+  void privacyPolicy() async {
+    final data =
+        await rootBundle.loadString('lib/assets/text/privacy-policy.txt');
+    setState(() {
+      pp = data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    termsAndConditions();
+    privacyPolicy();
   }
 
   @override
@@ -89,7 +114,7 @@ class _LoginState extends State<Login> {
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.all(20),
+                      margin: const EdgeInsets.all(20),
                       width: MediaQuery.of(context).size.width - 40,
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 38, 168, 254),
@@ -106,8 +131,8 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 50),
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -344,7 +369,8 @@ class _LoginState extends State<Login> {
                                         _passwordVisible
                                             ? Icons.visibility
                                             : Icons.visibility_off,
-                                        color: Color.fromARGB(96, 2, 56, 90),
+                                        color:
+                                            const Color.fromARGB(96, 2, 56, 90),
                                         size: 20,
                                       ),
                                       onPressed: () {
@@ -362,6 +388,80 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                               ),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Wrap(
+                              alignment: WrapAlignment.center,
+                              children: [
+                                Text(
+                                  "By signing up you agree to our ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return SingleChildScrollView(
+                                          scrollDirection: Axis.vertical,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(20),
+                                                child: Text(
+                                                  tc,
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Text(
+                                    "Terms & Conditions ",
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.blue),
+                                  ),
+                                ),
+                                Text(
+                                  "and ",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return SingleChildScrollView(
+                                          scrollDirection: Axis.vertical,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(20),
+                                                child: Text(
+                                                  pp,
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Text(
+                                    "Privacy Policy",
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.blue),
+                                  ),
+                                ),
+                              ],
                             ),
                             GestureDetector(
                               onTap: () {
@@ -409,7 +509,7 @@ class _LoginState extends State<Login> {
                                 margin: const EdgeInsets.only(top: 30),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 6, 151, 248),
+                                  color: const Color.fromARGB(255, 6, 151, 248),
                                   borderRadius: BorderRadius.circular(60),
                                   boxShadow: const [
                                     BoxShadow(
@@ -601,8 +701,8 @@ class _LoginState extends State<Login> {
                                               _passwordVisible
                                                   ? Icons.visibility
                                                   : Icons.visibility_off,
-                                              color:
-                                                  Color.fromARGB(96, 2, 56, 90),
+                                              color: const Color.fromARGB(
+                                                  96, 2, 56, 90),
                                               size: 20,
                                             ),
                                             onPressed: () {
@@ -679,7 +779,8 @@ class _LoginState extends State<Login> {
                                       margin: const EdgeInsets.only(top: 30),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 6, 163, 248),
+                                        color: const Color.fromARGB(
+                                            255, 6, 163, 248),
                                         borderRadius: BorderRadius.circular(60),
                                         boxShadow: const [
                                           BoxShadow(

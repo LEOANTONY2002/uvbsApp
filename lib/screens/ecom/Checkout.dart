@@ -6,6 +6,7 @@ import 'package:uvbs/colors.dart';
 import 'package:uvbs/components/ecom/shipping.dart';
 import 'package:uvbs/graphql/mutations/order.dart';
 import 'package:uvbs/providers/userProvider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Checkout extends StatefulWidget {
   const Checkout({super.key});
@@ -15,9 +16,10 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> {
-  bool loadingCOD = false;
+  bool loading = false;
   bool loadingRP = false;
   bool isOrderPlaced = false;
+  String tempOrderId = "";
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,113 @@ class _CheckoutState extends State<Checkout> {
             .map<int>((p) => p?['product']?['price'] * p?['quantity'])
             .reduce((value1, value2) => value1 + value2)
         : 0;
+    int RPAmount = totalPrice * 100;
 
     int totalItems = cartProducts.isNotEmpty
         ? cartProducts
             .map<int>((p) => p?['quantity'])
             .reduce((value1, value2) => value1 + value2)
         : 0;
+
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+    PersistentBottomSheetController openBottomSheet(String msg) {
+      return scaffoldKey.currentState!.showBottomSheet(
+          (context) => Container(
+                padding: const EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    Text(
+                      msg,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    IconButton(
+                        splashRadius: 25,
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(
+                          Icons.close,
+                          color: Color.fromARGB(255, 247, 252, 255),
+                          size: 20,
+                        ))
+                  ],
+                ),
+              ),
+          backgroundColor: const Color.fromARGB(255, 1, 47, 83));
+    }
+
+    void handlePaymentErrorResponse(PaymentFailureResponse response) {
+      showModalBottomSheet(
+          context: context,
+          backgroundColor: Color.fromARGB(0, 1, 47, 83),
+          builder: (context) {
+            return Container(
+              padding: const EdgeInsets.all(20),
+              width: MediaQuery.of(context).size.width,
+              color: Color.fromARGB(248, 0, 37, 50),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 120,
+                    child: Text(
+                      response.message ?? "Payment failed!",
+                      style: const TextStyle(
+                          color: Colors.white, overflow: TextOverflow.clip),
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  IconButton(
+                      splashRadius: 25,
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
+                        Icons.close,
+                        color: Color.fromARGB(255, 247, 252, 255),
+                        size: 20,
+                      ))
+                ],
+              ),
+            );
+          });
+
+      setState(() {
+        loading = false;
+      });
+    }
+
+    void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
+      String products = jsonEncode(cartProducts);
+      createRPOrderMutation(
+              user?['id'],
+              user?['shipping']['line1'],
+              user?['shipping']['line2'],
+              user?['shipping']['city'],
+              user?['shipping']['state'],
+              user?['shipping']['country'],
+              user?['shipping']['zip'],
+              products,
+              totalPrice,
+              tempOrderId,
+              response.paymentId ?? "",
+              response.orderId ?? "",
+              response.signature ?? "")
+          .then((value) {
+        if (value.hasException) {
+          setState(() {
+            loading = false;
+          });
+          openBottomSheet(value.exception!.graphqlErrors[0].message);
+        }
+        if (value.data != null) {
+          setState(() {
+            loading = false;
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(value.data!['createRPOrder']);
+            isOrderPlaced = true;
+          });
+        }
+      });
+    }
 
     return user!['shipping'] == null
         ? const Shipping()
@@ -121,9 +224,10 @@ class _CheckoutState extends State<Checkout> {
                 ),
               )
             : Scaffold(
+                key: scaffoldKey,
                 backgroundColor: AppColor.background,
                 body: SingleChildScrollView(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -186,7 +290,7 @@ class _CheckoutState extends State<Checkout> {
                           ),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.all(30),
+                            padding: const EdgeInsets.all(30),
                             child: Row(
                               children: cartProducts
                                   .map<Widget>(
@@ -393,65 +497,150 @@ class _CheckoutState extends State<Checkout> {
                           const SizedBox(
                             height: 30,
                           ),
-                          !loadingCOD
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      loadingCOD = true;
-                                    });
-                                    String products = jsonEncode(cartProducts);
-                                    createCODOrderMutation(
-                                            user['id'],
-                                            user['shipping']['line1'],
-                                            user['shipping']['line2'],
-                                            user['shipping']['city'],
-                                            user['shipping']['state'],
-                                            user['shipping']['country'],
-                                            user['shipping']['zip'],
-                                            products,
-                                            totalPrice)
-                                        .then((value) {
-                                      if (value.hasException) {
+                          !loading
+                              ? Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
                                         setState(() {
-                                          loadingCOD = false;
+                                          loading = true;
                                         });
-                                      }
-                                      if (value.data != null) {
-                                        setState(() {
-                                          loadingCOD = false;
-                                          Provider.of<UserProvider>(context,
-                                                  listen: false)
-                                              .setUser(value
-                                                  .data!['createCODOrder']);
-                                          isOrderPlaced = true;
+                                        String products =
+                                            jsonEncode(cartProducts);
+                                        createCODOrderMutation(
+                                                user['id'],
+                                                user['shipping']['line1'],
+                                                user['shipping']['line2'],
+                                                user['shipping']['city'],
+                                                user['shipping']['state'],
+                                                user['shipping']['country'],
+                                                user['shipping']['zip'],
+                                                products,
+                                                totalPrice)
+                                            .then((value) {
+                                          if (value.hasException) {
+                                            setState(() {
+                                              loading = false;
+                                            });
+                                          }
+                                          if (value.data != null) {
+                                            setState(() {
+                                              loading = false;
+                                              Provider.of<UserProvider>(context,
+                                                      listen: false)
+                                                  .setUser(value
+                                                      .data!['createCODOrder']);
+                                              isOrderPlaced = true;
+                                            });
+                                          }
                                         });
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 40),
-                                    child: Material(
-                                      elevation: 30,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(100)),
+                                      },
                                       child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height: 55,
-                                        alignment: Alignment.center,
-                                        decoration: const BoxDecoration(
-                                            color:
-                                                Color.fromARGB(255, 0, 23, 42),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(100))),
-                                        child: const Text(
-                                          "Cash on Delivery",
-                                          style: TextStyle(color: Colors.white),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        child: Material(
+                                          elevation: 30,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(100)),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: 55,
+                                            alignment: Alignment.center,
+                                            decoration: const BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 0, 23, 42),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(100))),
+                                            child: const Text(
+                                              "Cash on Delivery",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          loading = true;
+                                        });
+
+                                        generateRPOrderIdMutation(totalPrice)
+                                            .then((value) {
+                                          if (value.hasException) {
+                                            setState(() {
+                                              loading = false;
+                                              openBottomSheet(
+                                                  "Something went wrong!");
+                                            });
+                                          }
+                                          if (value.data != null) {
+                                            setState(() {
+                                              tempOrderId = value.data![
+                                                  'generateRPOrderId']['id'];
+                                            });
+                                            Razorpay razorpay = Razorpay();
+                                            var options = {
+                                              'key': 'rzp_test_5GvNFRqm7IoqBP',
+                                              'amount': RPAmount,
+                                              'name': 'UVBS.',
+                                              'description': 'UVBS products',
+                                              'order_id':
+                                                  '${value.data!['generateRPOrderId']['id']}',
+                                              'retry': {
+                                                'enabled': false,
+                                                // 'max_count': 1
+                                              },
+                                              'send_sms_hash': true,
+                                              'prefill': {
+                                                'contact': '${user['phone']}',
+                                                'email': '${user['email']}'
+                                              }
+                                            };
+                                            razorpay.on(
+                                                Razorpay.EVENT_PAYMENT_ERROR,
+                                                handlePaymentErrorResponse);
+                                            razorpay.on(
+                                                Razorpay.EVENT_PAYMENT_SUCCESS,
+                                                handlePaymentSuccessResponse);
+                                            razorpay.open(options);
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        child: Material(
+                                          elevation: 30,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(100)),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: 55,
+                                            alignment: Alignment.center,
+                                            decoration: const BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 0, 23, 42),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(100))),
+                                            child: const Text(
+                                              "Pay Now",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 )
                               : Container(
                                   alignment: Alignment.center,

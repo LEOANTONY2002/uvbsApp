@@ -12,10 +12,10 @@ class Ecom extends StatefulWidget {
 class _EcomState extends State<Ecom> {
   int index = 0;
 
-  late List<Widget> screens = [Products(), Cart()];
+  late List<Widget> screens = [const Products(), const Cart()];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Products();
+  Widget currentScreen = const Products();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class _EcomState extends State<Ecom> {
                   minWidth: 10,
                   onPressed: () {
                     setState(() {
-                      currentScreen = Products();
+                      currentScreen = const Products();
                       index = 0;
                     });
                   },
@@ -79,7 +79,7 @@ class _EcomState extends State<Ecom> {
                   minWidth: 10,
                   onPressed: () {
                     setState(() {
-                      currentScreen = Cart();
+                      currentScreen = const Cart();
                       index = 1;
                     });
                   },

@@ -18,6 +18,7 @@ class _AudiosState extends State<Audios> {
   bool loading = false;
   bool error = false;
   int catIndex = 0;
+  late Iterable filterAudios;
 
   @override
   void initState() {
@@ -64,7 +65,6 @@ class _AudiosState extends State<Audios> {
         Provider.of<AppProvider>(context, listen: false).audios ?? [];
     var featuredAudio =
         audios.isNotEmpty ? audios[Random().nextInt(audios.length - 1)] : "";
-    var filterAudios;
 
     if (catIndex == 0) {
       filterAudios = audios;
@@ -109,7 +109,7 @@ class _AudiosState extends State<Audios> {
                         )
                       : audios.isNotEmpty
                           ? SingleChildScrollView(
-                              padding: EdgeInsets.only(bottom: 100),
+                              padding: const EdgeInsets.only(bottom: 100),
                               child: Column(
                                 children: [
                                   featuredAudio != ""
@@ -307,7 +307,7 @@ class _AudiosState extends State<Audios> {
                                                           ],
                                                         ),
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         width: 10,
                                                       ),
                                                     ],
@@ -317,7 +317,7 @@ class _AudiosState extends State<Audios> {
                                             )
                                           ],
                                         )
-                                      : SizedBox(),
+                                      : const SizedBox(),
                                   Container(
                                     margin: const EdgeInsets.only(
                                       top: 30,
@@ -328,14 +328,16 @@ class _AudiosState extends State<Audios> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 20),
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
                                           child: Text(
                                             catIndex == 0
                                                 ? "All Songs"
                                                 : catIndex == 1
                                                     ? "Tamil Songs"
                                                     : "Hindi Songs",
-                                            style: TextStyle(fontSize: 22),
+                                            style:
+                                                const TextStyle(fontSize: 22),
                                           ),
                                         ),
                                         const SizedBox(
@@ -348,7 +350,7 @@ class _AudiosState extends State<Audios> {
                                                 catIndex = 0;
                                               }),
                                               child: Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       left: 20, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
@@ -364,7 +366,8 @@ class _AudiosState extends State<Audios> {
                                                           ? const Color
                                                                   .fromARGB(
                                                               255, 1, 58, 87)
-                                                          : Color.fromARGB(255,
+                                                          : const Color
+                                                                  .fromARGB(255,
                                                               87, 199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(
@@ -393,7 +396,7 @@ class _AudiosState extends State<Audios> {
                                                 catIndex = 1;
                                               }),
                                               child: Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       left: 20, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
@@ -409,7 +412,8 @@ class _AudiosState extends State<Audios> {
                                                           ? const Color
                                                                   .fromARGB(
                                                               255, 1, 58, 87)
-                                                          : Color.fromARGB(255,
+                                                          : const Color
+                                                                  .fromARGB(255,
                                                               87, 199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(
@@ -438,7 +442,7 @@ class _AudiosState extends State<Audios> {
                                                 catIndex = 2;
                                               }),
                                               child: Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       left: 20, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
@@ -454,7 +458,8 @@ class _AudiosState extends State<Audios> {
                                                           ? const Color
                                                                   .fromARGB(
                                                               255, 1, 58, 87)
-                                                          : Color.fromARGB(255,
+                                                          : const Color
+                                                                  .fromARGB(255,
                                                               87, 199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(
@@ -483,7 +488,7 @@ class _AudiosState extends State<Audios> {
                                                 catIndex = 3;
                                               }),
                                               child: Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       left: 20, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
@@ -499,7 +504,8 @@ class _AudiosState extends State<Audios> {
                                                           ? const Color
                                                                   .fromARGB(
                                                               255, 1, 58, 87)
-                                                          : Color.fromARGB(255,
+                                                          : const Color
+                                                                  .fromARGB(255,
                                                               87, 199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(

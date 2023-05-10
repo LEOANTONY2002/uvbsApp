@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               alignment: Alignment.center,
-              child: SizedBox(
+              child: const SizedBox(
                   width: 50, height: 50, child: CircularProgressIndicator()),
             )
           : error
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                   alignment: Alignment.center,
                   child: Text(
                     msg,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 )
               : SizedBox(
@@ -114,19 +114,19 @@ class _HomeState extends State<Home> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Hi",
                                       style: TextStyle(
                                         fontSize: 22,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      name != null ? name : "",
-                                      style: TextStyle(
+                                      name ?? "",
+                                      style: const TextStyle(
                                         fontSize: 22,
                                         color: Colors.white,
                                       ),
@@ -137,8 +137,8 @@ class _HomeState extends State<Home> {
                                   width: 40,
                                   height: 40,
                                   decoration: BoxDecoration(
-                                      color: Color.fromARGB(154, 20, 153, 241),
-                                      borderRadius: BorderRadius.all(
+                                      color: const Color.fromARGB(154, 20, 153, 241),
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(50),
                                       ),
                                       border: Border.all(
@@ -534,7 +534,7 @@ class _HomeState extends State<Home> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 100,
                                         )
                                       ],

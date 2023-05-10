@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/colors.dart';
@@ -64,7 +62,8 @@ class _OrderDetailState extends State<OrderDetail> {
                   child: Container(
                     width: 40,
                     height: 40,
-                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 40, horizontal: 20),
                     decoration: const BoxDecoration(
                       color: Color.fromARGB(76, 220, 239, 255),
                       borderRadius: BorderRadius.all(
@@ -76,17 +75,17 @@ class _OrderDetailState extends State<OrderDetail> {
                   ),
                 ),
               ),
-              orderProducts!.length > 2
+              orderProducts.length > 2
                   ? Container(
                       margin: const EdgeInsets.only(top: 230),
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 130),
+                            margin: const EdgeInsets.only(left: 130),
                             child: Material(
                               elevation: 10,
-                              shadowColor: Color.fromARGB(76, 2, 35, 61),
+                              shadowColor: const Color.fromARGB(76, 2, 35, 61),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(20)),
                               child: Container(
@@ -105,10 +104,10 @@ class _OrderDetailState extends State<OrderDetail> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: 130),
+                            margin: const EdgeInsets.only(right: 130),
                             child: Material(
                               elevation: 10,
-                              shadowColor: Color.fromARGB(76, 2, 35, 61),
+                              shadowColor: const Color.fromARGB(76, 2, 35, 61),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(20)),
                               child: Container(
@@ -120,7 +119,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        orderProducts[0]?['product']?['photo']),
+                                        orderProducts[1]?['product']?['photo']),
                                   ),
                                 ),
                               ),
@@ -128,7 +127,7 @@ class _OrderDetailState extends State<OrderDetail> {
                           ),
                           Material(
                             elevation: 30,
-                            shadowColor: Color.fromARGB(159, 2, 35, 61),
+                            shadowColor: const Color.fromARGB(159, 2, 35, 61),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(20)),
                             child: Container(
@@ -140,7 +139,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: NetworkImage(
-                                      orderProducts[0]?['product']?['photo']),
+                                      orderProducts[2]?['product']?['photo']),
                                 ),
                               ),
                             ),
@@ -266,7 +265,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          convertedDate(order?['createdAt']),
+                          convertedDate(order?['deliveryDate']),
                           style:
                               const TextStyle(color: Colors.blue, fontSize: 14),
                         ),
@@ -511,7 +510,7 @@ class _OrderDetailState extends State<OrderDetail> {
             height: 30,
           ),
           Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

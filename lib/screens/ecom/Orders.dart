@@ -26,8 +26,6 @@ class _MyOrdersState extends State<MyOrders> {
       return formatter.format(d);
     }
 
-    print(orders[0]?['deliveryDate']);
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 250, 254, 255),
       body: SingleChildScrollView(
@@ -204,7 +202,7 @@ class _MyOrdersState extends State<MyOrders> {
                                                     ),
                                                     Text(
                                                       convertedDate(
-                                                          o?['createdAt']),
+                                                          o?['deliveryDate']),
                                                       style: const TextStyle(
                                                           fontSize: 14),
                                                     ),

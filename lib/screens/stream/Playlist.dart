@@ -2,11 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/colors.dart';
-import 'package:uvbs/components/stream/favVideoCard.dart';
-import 'package:uvbs/components/stream/videoCard.dart';
-import 'package:uvbs/providers/favProvider.dart';
 import 'package:uvbs/providers/playlistProvider.dart';
-import 'package:uvbs/providers/provider.dart';
 
 class Playlist extends StatefulWidget {
   const Playlist({super.key});
@@ -19,19 +15,23 @@ class _PlaylistState extends State<Playlist> {
   bool loading = false;
   final player = AudioPlayer();
 
-  Duration? duration = Duration(seconds: 0);
+  Duration? duration = const Duration(seconds: 0);
   double value = 0;
   var isPlaying = false;
+  List playlist = [];
   var currentAudio;
+  int currentIndex = 0;
 
   void initPlayer() async {
     // print(Provider.of<AppProvider>(context, listen: false).audio['audioUrl']);
     if (Provider.of<PlaylistProvider>(context, listen: false)
         .playlist!
         .isNotEmpty) {
-      currentAudio =
-          Provider.of<PlaylistProvider>(context, listen: false).playlist?[0] ??
-              '';
+      playlist =
+          Provider.of<PlaylistProvider>(context, listen: false).playlist!;
+      currentAudio = Provider.of<PlaylistProvider>(context, listen: false)
+              .playlist?[currentIndex] ??
+          '';
       await player.setSourceUrl(currentAudio?['audioUrl'] ?? '');
       duration = await player.getDuration();
     }
@@ -52,8 +52,8 @@ class _PlaylistState extends State<Playlist> {
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
-    var playlist = Provider.of<PlaylistProvider>(context).playlist;
     // Provider.of<PlaylistProvider>(context).clearplaylist();
+    currentAudio = playlist[currentIndex];
 
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
@@ -81,7 +81,7 @@ class _PlaylistState extends State<Playlist> {
                         ],
                       ),
                     )
-                  : playlist!.isNotEmpty
+                  : playlist.isNotEmpty
                       ? Container(
                           margin: const EdgeInsets.only(
                             bottom: 30,
@@ -140,7 +140,6 @@ class _PlaylistState extends State<Playlist> {
                                   children: playlist
                                       .map<Widget>((p) => GestureDetector(
                                             onTap: () async {
-                                              print(currentAudio);
                                               await player
                                                   .setSourceUrl(p['audioUrl']);
                                               setState(() {
@@ -337,7 +336,7 @@ class _PlaylistState extends State<Playlist> {
             ]),
           ),
         ),
-        playlist!.isNotEmpty
+        playlist.isNotEmpty
             ? Positioned(
                 bottom: 50,
                 child: Container(
@@ -367,7 +366,7 @@ class _PlaylistState extends State<Playlist> {
                               child: Container(
                                 width: 60,
                                 height: 60,
-                                padding: EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(left: 10),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(100)),
@@ -384,10 +383,15 @@ class _PlaylistState extends State<Playlist> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
+                              Container(
                                 padding:
                                     const EdgeInsets.only(left: 20, top: 10),
-                                child: Text(currentAudio?['title']),
+                                width: MediaQuery.of(context).size.width - 220,
+                                child: Text(
+                                  currentAudio?['title'],
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis),
+                                ),
                               ),
                               Slider(
                                 onChanged: (v) {
@@ -412,39 +416,69 @@ class _PlaylistState extends State<Playlist> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: GestureDetector(
-                            onTap: () async {
-                              if (isPlaying) {
-                                await player.pause();
-                                setState(() {
-                                  isPlaying = !isPlaying;
-                                });
-                              } else {
-                                setState(() {
-                                  isPlaying = !isPlaying;
-                                });
-                                await player.resume();
-                              }
+                      Row(
+                        children: [
+                          currentIndex > 0
+                              ? GestureDetector(
+                                  onTap: () => setState(() {
+                                    currentIndex = currentIndex - 1;
+                                  }),
+                                  child: const Icon(
+                                    Icons.fast_rewind_rounded,
+                                    size: 25,
+                                  ),
+                                )
+                              : const SizedBox(),
+                          GestureDetector(
+                              onTap: () async {
+                                if (isPlaying) {
+                                  await player.pause();
+                                  setState(() {
+                                    isPlaying = !isPlaying;
+                                  });
+                                } else {
+                                  setState(() {
+                                    isPlaying = !isPlaying;
+                                  });
+                                  await player.resume();
+                                }
 
-                              player.onPositionChanged.listen((position) {
-                                setState(() {
-                                  value = position.inSeconds.toDouble();
+                                player.onPositionChanged.listen((position) {
+                                  setState(() {
+                                    value = position.inSeconds.toDouble();
+                                  });
                                 });
-                              });
-                            },
-                            child: Icon(
-                              isPlaying
-                                  ? Icons.pause_rounded
-                                  : Icons.play_arrow_rounded,
-                              size: 50,
-                            )),
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    isPlaying
+                                        ? Icons.pause_rounded
+                                        : Icons.play_arrow_rounded,
+                                    size: 45,
+                                  ),
+                                ],
+                              )),
+                          currentIndex < playlist.length - 1
+                              ? GestureDetector(
+                                  onTap: () => setState(() {
+                                    currentIndex = currentIndex + 1;
+                                  }),
+                                  child: const Icon(
+                                    Icons.fast_forward_rounded,
+                                    size: 25,
+                                  ),
+                                )
+                              : const SizedBox(),
+                          const SizedBox(
+                            width: 15,
+                          )
+                        ],
                       )
                     ],
                   ),
                 ))
-            : SizedBox()
+            : const SizedBox()
       ]),
     );
   }

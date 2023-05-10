@@ -159,6 +159,8 @@ class _VideosState extends State<Videos> {
                                                   Text(
                                                     featuredVideo['title'],
                                                     style: const TextStyle(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         fontSize: 32,
                                                         fontWeight:
                                                             FontWeight.w600),
@@ -200,12 +202,6 @@ class _VideosState extends State<Videos> {
                                                                           .only(
                                                                       right: 20,
                                                                       left: 60),
-                                                              // width:
-                                                              //     MediaQuery.of(context)
-                                                              //                 .size
-                                                              //                 .width /
-                                                              //             2 -
-                                                              //         60,
                                                               height: 50,
                                                               alignment: Alignment
                                                                   .centerRight,
@@ -291,7 +287,7 @@ class _VideosState extends State<Videos> {
                                                           ],
                                                         ),
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         width: 10,
                                                       ),
                                                     ],
@@ -301,7 +297,7 @@ class _VideosState extends State<Videos> {
                                             )
                                           ],
                                         )
-                                      : SizedBox(),
+                                      : const SizedBox(),
                                   Container(
                                     margin: const EdgeInsets.only(
                                       top: 30,

@@ -40,11 +40,11 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context, listen: false).user;
 
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey =
+        GlobalKey<ScaffoldState>();
 
     PersistentBottomSheetController openBottomSheet(String msg) {
-      return _scaffoldKey.currentState!.showBottomSheet(
+      return scaffoldKey.currentState!.showBottomSheet(
           (context) => Container(
                 padding: const EdgeInsets.all(20),
                 width: MediaQuery.of(context).size.width,
@@ -75,11 +75,11 @@ class _ProfileState extends State<Profile> {
           alignment: Alignment.topLeft,
           children: [
             Container(
-              padding: EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               alignment: Alignment.topLeft,
-              color: Color.fromARGB(255, 2, 37, 65),
+              color: const Color.fromARGB(255, 2, 37, 65),
               child: Row(
                 children: [
                   GestureDetector(
@@ -476,11 +476,11 @@ class _ProfileState extends State<Profile> {
                                       initialValue: name,
                                       cursorColor: Colors.black,
                                       cursorRadius: const Radius.circular(10),
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         labelText: "Name",
                                         hintText: "Name",
-                                        hintStyle: const TextStyle(
+                                        hintStyle: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 206, 206, 206),
                                             fontSize: 18,
@@ -519,11 +519,11 @@ class _ProfileState extends State<Profile> {
                                       initialValue: phone,
                                       cursorColor: Colors.black,
                                       cursorRadius: const Radius.circular(10),
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Phone Number",
                                         labelText: "Phone Number",
-                                        hintStyle: const TextStyle(
+                                        hintStyle: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 206, 206, 206),
                                             fontSize: 18,
@@ -569,7 +569,7 @@ class _ProfileState extends State<Profile> {
                                                 ? Icons.visibility
                                                 : Icons.visibility_off,
                                             color:
-                                                Color.fromARGB(96, 2, 56, 90),
+                                                const Color.fromARGB(96, 2, 56, 90),
                                             size: 20,
                                           ),
                                           onPressed: () {

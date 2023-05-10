@@ -49,7 +49,7 @@ class _FavVideoCardState extends State<FavVideoCard> {
                     ],
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                     child: Image.network(
                       widget.video['thumbnail'],
                       fit: BoxFit.cover,
@@ -60,7 +60,7 @@ class _FavVideoCardState extends State<FavVideoCard> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(7),
+                margin: const EdgeInsets.all(7),
                 decoration: const BoxDecoration(
                   boxShadow: [
                     BoxShadow(

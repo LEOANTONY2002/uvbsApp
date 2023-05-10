@@ -106,7 +106,7 @@ class _CartState extends State<Cart> {
                                 height: 20,
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 20),
+                                margin: const EdgeInsets.only(top: 20),
                                 width: MediaQuery.of(context).size.width,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -317,7 +317,7 @@ class _CartState extends State<Cart> {
                                                   children: [
                                                     Container(
                                                       padding:
-                                                          EdgeInsets.all(10),
+                                                          const EdgeInsets.all(10),
                                                       decoration:
                                                           const BoxDecoration(
                                                         color: Color.fromARGB(

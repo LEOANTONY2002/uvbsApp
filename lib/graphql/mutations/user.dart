@@ -44,6 +44,7 @@ String login(String email, String password) {
           razorpay_payment_id
           razorpay_order_id
           razorpay_signature
+          deliveryDate
           createdAt
           updatedAt
         }
@@ -116,6 +117,7 @@ String signup() {
           razorpay_payment_id
           razorpay_order_id
           razorpay_signature
+          deliveryDate
           createdAt
           updatedAt
         }
@@ -196,6 +198,8 @@ String updateUser() {
           razorpay_payment_id
           razorpay_order_id
           razorpay_signature
+          deliveryDate
+          deliveryDate
           createdAt
           updatedAt
         }

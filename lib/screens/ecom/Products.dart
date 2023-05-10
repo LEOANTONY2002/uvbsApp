@@ -343,7 +343,7 @@ class _ProductsState extends State<Products> {
                                                       },
                                                       child: Container(
                                                         padding:
-                                                            EdgeInsets.all(10),
+                                                            const EdgeInsets.all(10),
                                                         width: MediaQuery.of(
                                                                         context)
                                                                     .size

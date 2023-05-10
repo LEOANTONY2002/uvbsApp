@@ -23,25 +23,16 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
-    var user = prefs.getString('user');
-    if (user == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushNamed("/login");
-      });
-    } else {
-      Map<String, dynamic>? user =
-          Provider.of<UserProvider>(context, listen: false).user;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var user = prefs.getString('user');
       if (user == null) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.of(context).pushNamed("/login");
-        });
+        Navigator.of(context).pushNamed("/login");
       } else {
-        String email =
-            Provider.of<UserProvider>(context, listen: false).user?['email'] ??
-                "";
-        String password = Provider.of<UserProvider>(context, listen: false)
-                .user?['password'] ??
-            "";
+        Map<String, dynamic>? user =
+            Provider.of<UserProvider>(context, listen: false).user;
+
+        String email = user?['email'] ?? "";
+        String password = user?['password'] ?? "";
         loginMutation(email, password).then((value) {
           setState(() {
             loading = true;
@@ -52,21 +43,22 @@ class _MainState extends State<Main> {
             setState(() {
               loading = false;
               error = true;
-              msg = value.exception!.graphqlErrors[0].message;
+              msg = "Something went wrong";
             });
           } else if (value.data != null) {
             setState(() {
               loading = false;
             });
-            Map<String, dynamic> user = value.data!['login'];
+            Map<String, dynamic> updatedUser = value.data?['login'];
 
-            print(user?['orders'][0]['deliveryDate']);
+            print(updatedUser);
 
-            Provider.of<UserProvider>(context, listen: false).setUser(user);
+            Provider.of<UserProvider>(context, listen: false)
+                .setUser(updatedUser);
           }
         });
       }
-    }
+    });
   }
 
   List contents = [
@@ -93,7 +85,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? user = Provider.of<UserProvider>(context).user;
-    String name = user!['name'] ?? 'hello';
+    String name = user?['name'] ?? '';
 
     return Scaffold(
       body: Container(
@@ -151,7 +143,7 @@ class _MainState extends State<Main> {
                                 width: 10,
                               ),
                               Text(
-                                name ?? "",
+                                name,
                                 style: const TextStyle(
                                     fontSize: 22,
                                     color: Color.fromARGB(255, 1, 50, 68),

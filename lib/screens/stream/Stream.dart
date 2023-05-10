@@ -14,10 +14,10 @@ class Stream extends StatefulWidget {
 class _StreamState extends State<Stream> {
   int index = 0;
 
-  late List<Widget> screens = [Videos(), Favs(), Audios(), Playlist()];
+  late List<Widget> screens = [const Videos(), const Favs(), const Audios(), const Playlist()];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Videos();
+  Widget currentScreen = const Videos();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class _StreamState extends State<Stream> {
                   minWidth: 10,
                   onPressed: () {
                     setState(() {
-                      currentScreen = Videos();
+                      currentScreen = const Videos();
                       index = 0;
                     });
                   },
@@ -81,7 +81,7 @@ class _StreamState extends State<Stream> {
                   minWidth: 10,
                   onPressed: () {
                     setState(() {
-                      currentScreen = Favs();
+                      currentScreen = const Favs();
                       index = 1;
                     });
                   },
@@ -98,7 +98,7 @@ class _StreamState extends State<Stream> {
                     minWidth: 10,
                     onPressed: () {
                       setState(() {
-                        currentScreen = Audios();
+                        currentScreen = const Audios();
                         index = 2;
                       });
                     },
@@ -114,7 +114,7 @@ class _StreamState extends State<Stream> {
                   minWidth: 10,
                   onPressed: () {
                     setState(() {
-                      currentScreen = Playlist();
+                      currentScreen = const Playlist();
                       index = 3;
                     });
                   },

@@ -58,7 +58,7 @@ class VideoCard extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 2 - 50,
                   child: Text(
                     video['title'] ?? '',
-                    style: TextStyle(overflow: TextOverflow.ellipsis),
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
                   ),
                 ),
               ],

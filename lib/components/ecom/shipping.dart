@@ -22,11 +22,11 @@ class _ShippingState extends State<Shipping> {
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context, listen: false).user;
 
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey =
+        GlobalKey<ScaffoldState>();
 
     PersistentBottomSheetController openBottomSheet(String msg) {
-      return _scaffoldKey.currentState!.showBottomSheet(
+      return scaffoldKey.currentState!.showBottomSheet(
           (context) => Container(
                 padding: const EdgeInsets.all(20),
                 width: MediaQuery.of(context).size.width,
@@ -354,7 +354,7 @@ class _ShippingState extends State<Shipping> {
                                     });
                                   },
                                 )
-                              : CircularProgressIndicator()
+                              : const CircularProgressIndicator()
                         ],
                       ),
                     ),

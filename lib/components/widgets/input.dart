@@ -41,7 +41,7 @@ class _InputState extends State<Input> {
         child: TextFormField(
           initialValue: widget.value,
           cursorColor: Colors.black,
-          cursorRadius: Radius.circular(10),
+          cursorRadius: const Radius.circular(10),
           keyboardType: widget.textInputType,
           decoration: InputDecoration(
             border: InputBorder.none,

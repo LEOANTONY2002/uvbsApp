@@ -16,7 +16,7 @@ class AudioDetail extends StatefulWidget {
 class _AudioDetailState extends State<AudioDetail> {
   final player = AudioPlayer();
 
-  Duration? duration = Duration(seconds: 0);
+  Duration? duration = const Duration(seconds: 0);
   double value = 0;
   var isPlaying = false;
 
@@ -64,7 +64,7 @@ class _AudioDetailState extends State<AudioDetail> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: Container(
-              color: Color.fromARGB(214, 249, 253, 255),
+              color: const Color.fromARGB(214, 249, 253, 255),
               padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +104,7 @@ class _AudioDetailState extends State<AudioDetail> {
                       children: [
                         Material(
                           elevation: 30,
-                          shadowColor: Color.fromARGB(245, 1, 59, 107),
+                          shadowColor: const Color.fromARGB(245, 1, 59, 107),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(20)),
                           child: Container(

@@ -18,6 +18,7 @@ class UserProvider extends ChangeNotifier {
       user = userMap;
     }
     notifyListeners();
+    return null;
   }
 
   void setUser(Map<String, dynamic> data) async {
