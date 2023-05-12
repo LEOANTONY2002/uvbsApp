@@ -54,11 +54,20 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            
+            storeFile file("C:\\Users\\LEO\\keystore\\uvbs.jks")
+            storePassword "Leo@2002"
+            keyAlias "upload"
+            keyPassword "Leo@2002"
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

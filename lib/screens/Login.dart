@@ -395,7 +395,7 @@ class _LoginState extends State<Login> {
                             Wrap(
                               alignment: WrapAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   "By signing up you agree to our ",
                                   style: TextStyle(fontSize: 12),
                                 ),
@@ -409,11 +409,11 @@ class _LoginState extends State<Login> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                padding: EdgeInsets.all(20),
+                                                padding: const EdgeInsets.all(20),
                                                 child: Text(
                                                   tc,
                                                   style:
-                                                      TextStyle(fontSize: 12),
+                                                      const TextStyle(fontSize: 12),
                                                 ),
                                               ),
                                             ],
@@ -422,13 +422,13 @@ class _LoginState extends State<Login> {
                                       },
                                     );
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Terms & Conditions ",
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.blue),
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   "and ",
                                   style: TextStyle(fontSize: 12),
                                 ),
@@ -442,11 +442,11 @@ class _LoginState extends State<Login> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                padding: EdgeInsets.all(20),
+                                                padding: const EdgeInsets.all(20),
                                                 child: Text(
                                                   pp,
                                                   style:
-                                                      TextStyle(fontSize: 12),
+                                                      const TextStyle(fontSize: 12),
                                                 ),
                                               ),
                                             ],
@@ -455,7 +455,7 @@ class _LoginState extends State<Login> {
                                       },
                                     );
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Privacy Policy",
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.blue),
