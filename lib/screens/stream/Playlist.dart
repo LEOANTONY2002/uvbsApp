@@ -23,7 +23,6 @@ class _PlaylistState extends State<Playlist> {
   int currentIndex = 0;
 
   void initPlayer() async {
-    // print(Provider.of<AppProvider>(context, listen: false).audio['audioUrl']);
     if (Provider.of<PlaylistProvider>(context, listen: false)
         .playlist!
         .isNotEmpty) {
@@ -53,7 +52,7 @@ class _PlaylistState extends State<Playlist> {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     // Provider.of<PlaylistProvider>(context).clearplaylist();
-    currentAudio = playlist[currentIndex];
+    currentAudio = playlist.isNotEmpty ? playlist[currentIndex] : "";
 
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [

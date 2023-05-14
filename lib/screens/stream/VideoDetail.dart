@@ -654,13 +654,11 @@ class _VideoDetailState extends State<VideoDetail> {
                                                 child: IconButton(
                                                     onPressed: () {
                                                       if (comment == "") {
-                                                        print("empty");
                                                         setState(() {
                                                           error['open'] = true;
                                                           error['msg'] =
                                                               "Fill the comment field!";
                                                         });
-                                                        print(error);
                                                       } else {
                                                         setState(() {
                                                           loading = true;
@@ -672,9 +670,6 @@ class _VideoDetailState extends State<VideoDetail> {
                                                             .then((value) {
                                                           if (value
                                                               .hasException) {
-                                                            print(value
-                                                                .exception);
-                                                            print(userId);
                                                             setState(() {
                                                               loading = false;
                                                             });
@@ -682,7 +677,6 @@ class _VideoDetailState extends State<VideoDetail> {
 
                                                           if (value.data !=
                                                               null) {
-                                                            print(value.data);
                                                             setState(() {
                                                               loading = false;
                                                             });

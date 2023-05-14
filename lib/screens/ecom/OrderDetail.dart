@@ -612,9 +612,9 @@ class _OrderDetailState extends State<OrderDetail> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text("Total products"),
                   SizedBox(
                     height: 10,

@@ -341,8 +341,8 @@ class _ProfileState extends State<Profile> {
                             ],
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          child: Row(
-                            children: const [
+                          child: const Row(
+                            children: [
                               Icon(
                                 Icons.logout_rounded,
                                 color: Colors.red,

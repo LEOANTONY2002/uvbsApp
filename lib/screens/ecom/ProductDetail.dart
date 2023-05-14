@@ -242,15 +242,14 @@ class _ProductDetailState extends State<ProductDetail> {
                               const BorderRadius.all(Radius.circular(100)),
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 30),
+                                vertical: 20, horizontal: 20),
                             decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(100)),
                                 color: Color.fromARGB(255, 1, 49, 89)),
-                            child: const Text(
-                              "Go to Cart",
-                              style: TextStyle(
-                                  color: Color.fromARGB(246, 224, 241, 255)),
+                            child: const Icon(
+                              Icons.home_filled,
+                              color: Colors.white,
                             ),
                           ),
                         ),

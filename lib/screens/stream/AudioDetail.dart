@@ -21,7 +21,6 @@ class _AudioDetailState extends State<AudioDetail> {
   var isPlaying = false;
 
   void initPlayer() async {
-    // print(Provider.of<AppProvider>(context, listen: false).audio['audioUrl']);
     var audio = Provider.of<AppProvider>(context, listen: false).audio;
     await player.setSourceUrl(audio['audioUrl']);
     duration = await player.getDuration();

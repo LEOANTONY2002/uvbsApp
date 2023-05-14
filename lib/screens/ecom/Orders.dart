@@ -18,7 +18,8 @@ class _MyOrdersState extends State<MyOrders> {
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context, listen: false).user;
     List? userOrders = user?['orders'];
-    List? orders = userOrders!.reversed.toList();
+    print(user);
+    List? orders = userOrders?.reversed.toList() ?? [];
     final DateFormat formatter = DateFormat('MMM dd, yyyy');
 
     String convertedDate(String date) {
@@ -64,9 +65,9 @@ class _MyOrdersState extends State<MyOrders> {
               const SizedBox(
                 height: 50,
               ),
-              orders.isNotEmpty
+              orders!.isNotEmpty
                   ? Column(
-                      children: orders
+                      children: orders!
                           .map<Widget>((o) => GestureDetector(
                                 onTap: () {
                                   Provider.of<AppProvider>(context,

@@ -6,23 +6,47 @@ String addToCart() {
     mutation addToCartProduct(\$userId: String!, \$cartId: String!, \$productId: String!, \$quantity: Int!) {
       addToCartProduct(userId: \$userId, cartId: \$cartId, productId: \$productId, quantity: \$quantity) {
         id
-        email
         name
+        email
+        phone
+        password
+        createdAt
+        updatedAt
         cart {
-          price
           id
+          price
           products {
-            quantity
             id
+            quantity
             product {
               id
               name
               description
               price
               photo
-              stock
             }
           }
+        }
+        orders {
+          id
+          line1
+          line2
+          city
+          state
+          country
+          zip
+          status
+          products
+          price
+          payment_mode
+          payment_status
+          razorpay_temp_order_id
+          razorpay_payment_id
+          razorpay_order_id
+          razorpay_signature
+          deliveryDate
+          createdAt
+          updatedAt
         }
         shipping {
           id
@@ -61,23 +85,47 @@ String removeFromCart() {
     mutation removeFromCartProduct(\$userId: String!, \$cartProductId: String!) {
       removeFromCartProduct(userId: \$userId, cartProductId: \$cartProductId) {
         id
-        email
         name
+        email
+        phone
+        password
+        createdAt
+        updatedAt
         cart {
-          price
           id
+          price
           products {
-            quantity
             id
+            quantity
             product {
               id
               name
               description
               price
               photo
-              stock
             }
           }
+        }
+        orders {
+          id
+          line1
+          line2
+          city
+          state
+          country
+          zip
+          status
+          products
+          price
+          payment_mode
+          payment_status
+          razorpay_temp_order_id
+          razorpay_payment_id
+          razorpay_order_id
+          razorpay_signature
+          deliveryDate
+          createdAt
+          updatedAt
         }
         shipping {
           id

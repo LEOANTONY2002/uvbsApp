@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/graphql/GraphQLConfig.dart';
 import 'package:uvbs/prefs.dart';
@@ -10,7 +11,7 @@ import 'package:uvbs/providers/userProvider.dart';
 import 'package:uvbs/screens/Login.dart';
 import 'package:uvbs/screens/Main.dart';
 import 'package:uvbs/screens/Profile.dart';
-import 'package:uvbs/screens/ecom/Checkout.dart';
+import 'package:uvbs/screens/ecom/CheckoutStripe.dart';
 import 'package:uvbs/screens/ecom/OrderDetail.dart';
 import 'package:uvbs/screens/ecom/Orders.dart';
 import 'package:uvbs/screens/ecom/ProductDetail.dart';
@@ -29,6 +30,14 @@ main() async {
   await initPref();
   // WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  Stripe.publishableKey =
+      "pk_live_51N6wNwSFFOdrOSeflElr61Sbt6tOcuJceWr0xo7EAToQuCp8hE0hnwa9y3JQUGsVknI4wTEI25mujw48zMzTbHkv00S7PHmf9N";
+  // pk_test_51N6wNwSFFOdrOSefwY70FBAabwhctHVgDcdCOHgo9PmigQJouUSnE44f1rUi6qFHUKshle3gwnbgyYZxNtkNevH5007Z4dTRLf
+  Stripe.merchantIdentifier = 'merchant.com.UVBS';
+  const GooglePayInitParams(merchantName: "UVBS", countryCode: "IN");
+
+  await Stripe.instance.applySettings();
 
   runApp(
     MultiProvider(
@@ -78,7 +87,7 @@ class _MyAppState extends State<MyApp> {
             '/audio': (context) => AudioDetail(aud: audio),
             '/ecom': (context) => const Ecom(),
             '/product': (context) => ProductDetail(product: product),
-            '/checkout': (context) => const Checkout(),
+            '/checkout': (context) => const CheckoutStripe(),
             '/shipping': (context) => const MyShipping(),
             '/orders': (context) => const MyOrders(),
             '/order': (context) => OrderDetail(order: order),

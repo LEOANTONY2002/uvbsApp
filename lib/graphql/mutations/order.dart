@@ -208,6 +208,31 @@ Future<QueryResult> generateRPOrderIdMutation(int price) async {
   return result;
 }
 
+String generateStripePaymentIndent() {
+  return """
+    mutation generateStripePaymentIndent(\$price: Int!) {
+      generateStripePaymentIndent(price: \$price) {
+        id
+        client_secret
+      }
+    }
+  """;
+}
+
+Future<QueryResult> generateStripePaymentIndentMutation(int price) async {
+  GraphQLClient client = GraphQLConfig.clientToQuery();
+  QueryResult result = await client.mutate(
+    MutationOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
+        document: gql(generateStripePaymentIndent()),
+        variables: {
+          'price': price,
+        }),
+  );
+
+  return result;
+}
+
 String createRPOrder() {
   return """
     mutation CreateRPOrder(\$userId: String!, \$line1: String!, \$line2: String!, \$city: String!, \$state: String!, \$country: String!, \$zip: Int!, \$products: String!, \$price: Int!, \$razorpay_temp_order_id: String!,  \$razorpay_payment_id: String!,  \$razorpay_order_id: String!,  \$razorpay_signature: String!) {

@@ -50,8 +50,6 @@ class _HomeState extends State<Home> {
           });
           Map<String, dynamic> user = value.data!['login'];
 
-          print(user);
-
           Provider.of<UserProvider>(context, listen: false).setUser(user);
 
           var prefUser = prefs.getString('user');
@@ -137,7 +135,8 @@ class _HomeState extends State<Home> {
                                   width: 40,
                                   height: 40,
                                   decoration: BoxDecoration(
-                                      color: const Color.fromARGB(154, 20, 153, 241),
+                                      color: const Color.fromARGB(
+                                          154, 20, 153, 241),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(50),
                                       ),
@@ -270,9 +269,9 @@ class _HomeState extends State<Home> {
                                                       child: SizedBox.fromSize(
                                                         size: const Size(
                                                             200, 250),
-                                                        child: Padding(
+                                                        child: const Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                              EdgeInsets
                                                                       .only(
                                                                   left: 30),
                                                           child: Column(
@@ -282,7 +281,7 @@ class _HomeState extends State<Home> {
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .start,
-                                                            children: const [
+                                                            children: [
                                                               Text(
                                                                 "Explore",
                                                                 style: TextStyle(
@@ -447,9 +446,9 @@ class _HomeState extends State<Home> {
                                                       child: SizedBox.fromSize(
                                                         size: const Size(
                                                             200, 250),
-                                                        child: Padding(
+                                                        child: const Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                              EdgeInsets
                                                                       .only(
                                                                   left: 30),
                                                           child: Column(
@@ -459,7 +458,7 @@ class _HomeState extends State<Home> {
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .start,
-                                                            children: const [
+                                                            children: [
                                                               Text(
                                                                 "Explore",
                                                                 style: TextStyle(

@@ -1,21 +1,13 @@
 package com.example.uvbs
 
 import io.flutter.embedding.android.FlutterActivity
-import android.os.Build
-import android.os.Bundle
-import androidx.core.view.WindowCompat
+import io.flutter.embedding.android.FlutterFragmentActivity
+import android.view.WindowManager.LayoutParams
+import io.flutter.embedding.engine.FlutterEngine
 
-class MainActivity: FlutterActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-    // Aligns the Flutter view vertically with the window.
-    WindowCompat.setDecorFitsSystemWindows(getWindow(), false)
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-      // Disable the Android splash screen fade out animation to avoid
-      // a flicker before the similar frame is drawn in Flutter.
-      splashScreen.setOnExitAnimationListener { splashScreenView -> splashScreenView.remove() }
-    }
-
-    super.onCreate(savedInstanceState)
+class MainActivity: FlutterFragmentActivity() {
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    window.addFlags(LayoutParams.FLAG_SECURE)
+    super.configureFlutterEngine(flutterEngine)
   }
 }

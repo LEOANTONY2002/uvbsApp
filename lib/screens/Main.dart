@@ -51,8 +51,6 @@ class _MainState extends State<Main> {
             });
             Map<String, dynamic> updatedUser = value.data?['login'];
 
-            print(updatedUser);
-
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(updatedUser);
           }
@@ -63,9 +61,9 @@ class _MainState extends State<Main> {
 
   List contents = [
     {
-      "title": "Themes",
-      "description": "UVBS video & audio playlist",
-      "image": "lib/assets/images/home_vid_svg.png",
+      "title": "Come & See",
+      "description": "UVBS videos & audios 2023",
+      "image": "lib/assets/images/home_vid.jpg",
       "btn_icon": "lib/assets/images/home_vid_icon.png",
       "btn_text": "Watch Now",
       "link": "/stream"

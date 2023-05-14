@@ -14,6 +14,7 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   bool loading = false;
   bool removing = false;
+  String removingId = "";
 
   @override
   Widget build(BuildContext context) {
@@ -252,55 +253,58 @@ class _CartState extends State<Cart> {
                                                                     .all(Radius
                                                                         .circular(
                                                                             50))),
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () async {
-                                                                setState(() {
-                                                                  removing =
-                                                                      true;
-                                                                });
-                                                                removeFromCartMutation(
-                                                                  user?['id'],
-                                                                  p?['id'],
-                                                                ).then((value) {
-                                                                  if (value
-                                                                      .hasException) {
-                                                                    setState(
-                                                                        () {
-                                                                      removing =
-                                                                          false;
-                                                                    });
-                                                                    print(
-                                                                        "EROO----------");
-                                                                    print(value
-                                                                        .exception);
-                                                                  }
-                                                                  if (value
-                                                                          .data !=
-                                                                      null) {
-                                                                    print(value
-                                                                            .data![
-                                                                        'removeFromCartProduct']);
-                                                                    setState(
-                                                                        () {
-                                                                      removing =
-                                                                          false;
-                                                                      Provider.of<UserProvider>(
-                                                                              context,
-                                                                              listen:
-                                                                                  false)
-                                                                          .setUser(
-                                                                              value.data!['removeFromCartProduct']);
-                                                                    });
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: const Icon(
-                                                                  Icons
-                                                                      .delete_forever_rounded,
-                                                                  color: Colors
-                                                                      .blue),
-                                                            ),
+                                                            child: removing &&
+                                                                    p?['product']
+                                                                            ?[
+                                                                            'id'] ==
+                                                                        removingId
+                                                                ? const SizedBox(
+                                                                    width: 20,
+                                                                    height: 20,
+                                                                    child:
+                                                                        CircularProgressIndicator())
+                                                                : GestureDetector(
+                                                                    onTap:
+                                                                        () async {
+                                                                      setState(
+                                                                          () {
+                                                                        removingId = p?['product']
+                                                                            ?[
+                                                                            'id'];
+                                                                        removing =
+                                                                            true;
+                                                                      });
+                                                                      removeFromCartMutation(
+                                                                        user?[
+                                                                            'id'],
+                                                                        p?['id'],
+                                                                      ).then(
+                                                                          (value) {
+                                                                        if (value
+                                                                            .hasException) {
+                                                                          setState(
+                                                                              () {
+                                                                            removing =
+                                                                                false;
+                                                                          });
+                                                                        }
+                                                                        if (value.data !=
+                                                                            null) {
+                                                                          setState(
+                                                                              () {
+                                                                            removing =
+                                                                                false;
+                                                                            Provider.of<UserProvider>(context, listen: false).setUser(value.data!['removeFromCartProduct']);
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    },
+                                                                    child: const Icon(
+                                                                        Icons
+                                                                            .delete_forever_rounded,
+                                                                        color: Colors
+                                                                            .blue),
+                                                                  ),
                                                           ),
                                                         ],
                                                       ),
@@ -317,7 +321,8 @@ class _CartState extends State<Cart> {
                                                   children: [
                                                     Container(
                                                       padding:
-                                                          const EdgeInsets.all(10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       decoration:
                                                           const BoxDecoration(
                                                         color: Color.fromARGB(

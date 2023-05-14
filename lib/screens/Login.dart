@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -138,18 +140,19 @@ class _LoginState extends State<Login> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Welcome",
+                              "Welcome to",
                               style:
-                                  TextStyle(fontSize: 32, color: Colors.white),
+                                  TextStyle(fontSize: 14, color: Colors.white),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 7, bottom: 10),
                               child: Text(
-                                "Let's start the Bible tour",
+                                "UVBS",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 32,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 5,
                                     fontFamily: 'verdana'),
                               ),
                             ),
@@ -409,11 +412,12 @@ class _LoginState extends State<Login> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                padding: const EdgeInsets.all(20),
+                                                padding:
+                                                    const EdgeInsets.all(20),
                                                 child: Text(
                                                   tc,
-                                                  style:
-                                                      const TextStyle(fontSize: 12),
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
                                                 ),
                                               ),
                                             ],
@@ -442,11 +446,12 @@ class _LoginState extends State<Login> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                padding: const EdgeInsets.all(20),
+                                                padding:
+                                                    const EdgeInsets.all(20),
                                                 child: Text(
                                                   pp,
-                                                  style:
-                                                      const TextStyle(fontSize: 12),
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
                                                 ),
                                               ),
                                             ],
@@ -594,15 +599,18 @@ class _LoginState extends State<Login> {
                         )
                       : const SizedBox(),
                   loading
-                      ? const Center(
+                      ? Center(
                           child: Positioned(
-                            child: BlurryContainer.expand(
-                              blur: 10,
-                              child: Center(
-                                child: SizedBox(
-                                  width: 50,
-                                  height: 50,
-                                  child: CircularProgressIndicator(),
+                            child: SizedBox.expand(
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                                child: const Center(
+                                  child: SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 ),
                               ),
                             ),
