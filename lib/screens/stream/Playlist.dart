@@ -215,29 +215,47 @@ class _PlaylistState extends State<Playlist> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text(
-                                                          p?['title'],
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 17),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width -
+                                                              220,
+                                                          child: Text(
+                                                            p?['title'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                fontSize: 17),
+                                                          ),
                                                         ),
-                                                        Text(
-                                                          p?['description'],
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w200,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          137,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                                  fontSize: 12),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width -
+                                                              220,
+                                                          child: Text(
+                                                            p?['description'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        137,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                fontSize: 12),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -419,8 +437,10 @@ class _PlaylistState extends State<Playlist> {
                         children: [
                           currentIndex > 0
                               ? GestureDetector(
-                                  onTap: () => setState(() {
+                                  onTap: () async => setState(() async {
                                     currentIndex = currentIndex - 1;
+                                    await player.setSourceUrl(
+                                        playlist[currentIndex]?['audioUrl']);
                                   }),
                                   child: const Icon(
                                     Icons.fast_rewind_rounded,
@@ -460,8 +480,10 @@ class _PlaylistState extends State<Playlist> {
                               )),
                           currentIndex < playlist.length - 1
                               ? GestureDetector(
-                                  onTap: () => setState(() {
+                                  onTap: () => setState(() async {
                                     currentIndex = currentIndex + 1;
+                                    await player.setSourceUrl(
+                                        playlist[currentIndex]?['audioUrl']);
                                   }),
                                   child: const Icon(
                                     Icons.fast_forward_rounded,

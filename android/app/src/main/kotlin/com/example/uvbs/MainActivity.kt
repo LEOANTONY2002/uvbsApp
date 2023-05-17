@@ -1,4 +1,4 @@
-package com.example.uvbs
+package com.unitedvbs.uvbs
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

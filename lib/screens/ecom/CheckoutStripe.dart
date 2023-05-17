@@ -119,7 +119,10 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
             applePay: Stripe.instance.isApplePaySupported.value,
             googlePay: true,
             style: ThemeMode.dark,
-            // testEnv: true,
+            testEnv: true,
+            currencyCode: "INR",
+            merchantCountryCode: "IN",
+            customFlow: true,
             billingDetails: BillingDetails(
                 email: user?['email'],
                 name: user?['name'],
@@ -461,7 +464,7 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                               ),
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 10,
                             ),
                             Row(
                               children: [
@@ -493,7 +496,7 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                               ],
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 20,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -535,7 +538,7 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                               ],
                             ),
                             const SizedBox(
-                              height: 60,
+                              height: 40,
                             ),
                             Row(
                               children: [

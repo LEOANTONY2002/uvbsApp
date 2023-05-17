@@ -329,7 +329,7 @@ class _AudiosState extends State<Audios> {
                                       children: [
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 20),
+                                              const EdgeInsets.only(left: 15),
                                           child: Text(
                                             catIndex == 0
                                                 ? "All Songs"
@@ -343,7 +343,9 @@ class _AudiosState extends State<Audios> {
                                         const SizedBox(
                                           height: 20,
                                         ),
-                                        Row(
+                                        Wrap(
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
                                           children: [
                                             GestureDetector(
                                               onTap: () => setState(() {
@@ -351,11 +353,11 @@ class _AudiosState extends State<Audios> {
                                               }),
                                               child: Container(
                                                   margin: const EdgeInsets.only(
-                                                      left: 20, bottom: 30),
+                                                      left: 15, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
-                                                      vertical: 15,
-                                                      horizontal: 15),
+                                                      vertical: 12,
+                                                      horizontal: 12),
                                                   constraints:
                                                       const BoxConstraints(
                                                           maxWidth: 250),
@@ -397,11 +399,11 @@ class _AudiosState extends State<Audios> {
                                               }),
                                               child: Container(
                                                   margin: const EdgeInsets.only(
-                                                      left: 20, bottom: 30),
+                                                      left: 15, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 20),
+                                                      vertical: 10,
+                                                      horizontal: 15),
                                                   constraints:
                                                       const BoxConstraints(
                                                           maxWidth: 250),
@@ -443,11 +445,11 @@ class _AudiosState extends State<Audios> {
                                               }),
                                               child: Container(
                                                   margin: const EdgeInsets.only(
-                                                      left: 20, bottom: 30),
+                                                      left: 15, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 20),
+                                                      vertical: 10,
+                                                      horizontal: 15),
                                                   constraints:
                                                       const BoxConstraints(
                                                           maxWidth: 250),
@@ -489,11 +491,11 @@ class _AudiosState extends State<Audios> {
                                               }),
                                               child: Container(
                                                   margin: const EdgeInsets.only(
-                                                      left: 20, bottom: 30),
+                                                      left: 15, bottom: 30),
                                                   padding: const EdgeInsets
                                                           .symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 20),
+                                                      vertical: 10,
+                                                      horizontal: 15),
                                                   constraints:
                                                       const BoxConstraints(
                                                           maxWidth: 250),

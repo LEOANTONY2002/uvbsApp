@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/colors.dart';
 import 'package:uvbs/graphql/mutations/video.dart';
@@ -45,9 +46,14 @@ class _VideoDetailState extends State<VideoDetail> {
   //     });
   // }
 
+  Future<void> secureScreen() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   void initState() {
-    super.initState();
+    secureScreen();
+
     // initPlayer();
     BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
@@ -67,6 +73,8 @@ class _VideoDetailState extends State<VideoDetail> {
             controlsConfiguration: BetterPlayerControlsConfiguration(
                 controlBarColor: Color.fromARGB(39, 0, 0, 0))),
         betterPlayerDataSource: betterPlayerDataSource);
+
+    super.initState();
   }
 
   @override

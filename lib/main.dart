@@ -16,6 +16,7 @@ import 'package:uvbs/screens/ecom/OrderDetail.dart';
 import 'package:uvbs/screens/ecom/Orders.dart';
 import 'package:uvbs/screens/ecom/ProductDetail.dart';
 import 'package:uvbs/screens/ecom/Shipping.dart';
+// import 'package:uvbs/screens/ecom/UPI.dart';
 import 'package:uvbs/screens/stream/AudioDetail.dart';
 import 'package:uvbs/screens/stream/FavVideoDetail.dart';
 import 'package:uvbs/screens/stream/Stream.dart';

@@ -65,10 +65,9 @@ class _MyOrdersState extends State<MyOrders> {
               const SizedBox(
                 height: 50,
               ),
-              orders!.isNotEmpty
+              orders.isNotEmpty
                   ? Column(
-                      children: orders!
-                          .map<Widget>((o) => GestureDetector(
+                      children: orders.map<Widget>((o) => GestureDetector(
                                 onTap: () {
                                   Provider.of<AppProvider>(context,
                                           listen: false)

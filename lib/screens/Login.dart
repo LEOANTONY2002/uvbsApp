@@ -19,7 +19,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   int screen = 0;
-  Error error = Error(open: false, msg: "");
   bool loading = false;
   String tc = "";
   String pp = "";
@@ -134,26 +133,24 @@ class _LoginState extends State<Login> {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 50),
+                            horizontal: 30, vertical: 30),
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Welcome to",
+                              "Welcome",
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
+                                  TextStyle(fontSize: 34, color: Colors.white),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 7, bottom: 10),
                               child: Text(
-                                "UVBS",
+                                "Let's start with UVBS",
                                 style: TextStyle(
-                                    fontSize: 32,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 5,
-                                    fontFamily: 'verdana'),
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                             Padding(
@@ -201,10 +198,11 @@ class _LoginState extends State<Login> {
                                               width: 2, color: Colors.white),
                                           borderRadius:
                                               BorderRadius.circular(10)),
-                                      child: Text(
+                                      child: const Text(
                                         "Signin",
                                         style: TextStyle(
-                                            color: AppColor.gradientFirst,
+                                            color:
+                                                Color.fromARGB(255, 2, 41, 72),
                                             fontSize: 17,
                                             fontWeight: FontWeight.w800),
                                       ),
@@ -212,10 +210,22 @@ class _LoginState extends State<Login> {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        width: MediaQuery.of(context).size.width - 60,
+                        child: const Text(
+                          "Powered by Galilee Solutions",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w100,
+                              fontSize: 11),
+                        ),
+                      )
                     ],
                   ),
                 ],
@@ -481,15 +491,20 @@ class _LoginState extends State<Login> {
                                 } else {
                                   setState(() {
                                     loading = true;
-                                    error.open = false;
-                                    error.msg = "";
                                   });
                                   signupMutation(name.text, email.text,
                                           phone.text, password.text)
                                       .then((value) {
                                     if (value.hasException) {
-                                      openBottomSheet(_scaffoldKey,
-                                          "Something went wrong!");
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                      print(value
+                                          .exception!.graphqlErrors[0].message);
+                                      openBottomSheet(
+                                          _scaffoldKey,
+                                          value.exception!.graphqlErrors[0]
+                                              .message);
                                     }
                                     if (value.data != null) {
                                       setState(() {
@@ -502,8 +517,10 @@ class _LoginState extends State<Login> {
                                           .setUser(user);
                                       Navigator.of(context).pushNamed("/home");
                                     } else if (value.data == null) {
-                                      openBottomSheet(_scaffoldKey,
-                                          "Something went wrong!");
+                                      openBottomSheet(
+                                          _scaffoldKeyLogin,
+                                          value.exception!.graphqlErrors[0]
+                                              .message);
                                     }
                                   });
                                 }
@@ -558,59 +575,16 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                  error.open
-                      ? Positioned(
-                          bottom: 20,
-                          left: 30,
-                          child: Container(
-                              width: MediaQuery.of(context).size.width - 60,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 255, 249, 248),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        blurRadius: 10,
-                                        color:
-                                            Color.fromARGB(182, 255, 227, 227),
-                                        offset: Offset(2, 4))
-                                  ]),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 12),
-                                    child: Text(
-                                      error.msg,
-                                      style: const TextStyle(color: Colors.red),
-                                    ),
-                                  ),
-                                  IconButton(
-                                      onPressed: () => setState(() {
-                                            error.open = false;
-                                            error.msg = "";
-                                          }),
-                                      color: Colors.red,
-                                      iconSize: 30,
-                                      icon: const Icon(Icons.cancel_rounded))
-                                ],
-                              )),
-                        )
-                      : const SizedBox(),
                   loading
                       ? Center(
-                          child: Positioned(
-                            child: SizedBox.expand(
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                                child: const Center(
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: CircularProgressIndicator(),
-                                  ),
+                          child: SizedBox.expand(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                              child: const Center(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: CircularProgressIndicator(),
                                 ),
                               ),
                             ),
@@ -742,8 +716,6 @@ class _LoginState extends State<Login> {
                                       } else {
                                         setState(() {
                                           loading = true;
-                                          error.open = false;
-                                          error.msg = "";
                                         });
                                         loginMutation(email.text, password.text)
                                             .then((value) {
@@ -836,53 +808,13 @@ class _LoginState extends State<Login> {
                         ],
                       ),
                     ),
-                    error.open
-                        ? Positioned(
-                            bottom: 20,
-                            left: 30,
-                            child: Container(
-                                width: MediaQuery.of(context).size.width - 60,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 255, 249, 248),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          blurRadius: 10,
-                                          color: Color.fromARGB(
-                                              182, 255, 227, 227),
-                                          offset: Offset(2, 4))
-                                    ]),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 12),
-                                      child: Text(
-                                        error.msg,
-                                        style:
-                                            const TextStyle(color: Colors.red),
-                                      ),
-                                    ),
-                                    IconButton(
-                                        onPressed: () => setState(() {
-                                              error.open = false;
-                                              error.msg = "";
-                                            }),
-                                        color: Colors.red,
-                                        iconSize: 30,
-                                        icon: const Icon(Icons.cancel_rounded))
-                                  ],
-                                )),
-                          )
-                        : const SizedBox(),
                     loading
-                        ? const Center(
-                            child: Positioned(
-                              child: BlurryContainer.expand(
-                                blur: 10,
-                                child: Center(
+                        ? Center(
+                            child: SizedBox.expand(
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                                child: const Center(
                                   child: SizedBox(
                                     width: 50,
                                     height: 50,
