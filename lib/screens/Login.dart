@@ -392,7 +392,7 @@ class _LoginState extends State<Login> {
                                         });
                                       },
                                     ),
-                                    hintText: "Password",
+                                    hintText: "Password for UVBS",
                                     hintStyle: const TextStyle(
                                         color:
                                             Color.fromARGB(255, 206, 206, 206),

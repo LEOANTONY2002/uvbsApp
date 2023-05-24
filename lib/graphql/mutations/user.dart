@@ -235,3 +235,32 @@ Future<QueryResult> updateUserMutation(
 
   return result;
 }
+
+String deleteUser() {
+  return """
+    mutation deleteUser(\$id: String!) {
+      deleteUser(id: \$id) {
+        id
+        name
+        email
+        phone
+        password
+        isActive
+        createdAt
+        updatedAt
+      }
+    }
+  """;
+}
+
+Future<QueryResult> deleteUserMutation(String id) async {
+  GraphQLClient client = GraphQLConfig.clientToQuery();
+  QueryResult result = await client.mutate(
+    MutationOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
+        document: gql(deleteUser()),
+        variables: {'id': id}),
+  );
+
+  return result;
+}

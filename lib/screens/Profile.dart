@@ -16,6 +16,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool edit = false;
   bool loading = false;
+  bool deleting = false;
   Error error = Error(open: false, msg: "");
   String name = "";
   String email = "";
@@ -40,8 +41,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context, listen: false).user;
 
-    final GlobalKey<ScaffoldState> scaffoldKey =
-        GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     PersistentBottomSheetController openBottomSheet(String msg) {
       return scaffoldKey.currentState!.showBottomSheet(
@@ -320,6 +320,71 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
+                    !deleting
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                deleting = true;
+                              });
+                              deleteUserMutation(user?['id']).then((value) {
+                                if (value.hasException) {
+                                  setState(() {
+                                    deleting = false;
+                                  });
+                                  openBottomSheet("Something went wrong!");
+                                } else if (value.data != null) {
+                                  setState(() {
+                                    deleting = false;
+                                  });
+                                  if (value.data?['deleteUser']?['isActive'] ==
+                                      false) {
+                                    Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .clearUser();
+                                    Navigator.pushNamed(context, "/home");
+                                  }
+                                }
+                              });
+                            },
+                            child: Container(
+                              width: 190,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 40),
+                              padding: const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 255, 242, 242),
+                                boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 10,
+                                      color: Color.fromARGB(31, 198, 234, 255),
+                                      blurStyle: BlurStyle.outer),
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.remove_circle_outline_sharp,
+                                    color: Colors.red,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Delete Account",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ))
+                        : Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
+                            child: const CircularProgressIndicator(
+                              color: Colors.red,
+                            ),
+                          ),
                     GestureDetector(
                         onTap: () {
                           Provider.of<UserProvider>(context, listen: false)
@@ -568,8 +633,8 @@ class _ProfileState extends State<Profile> {
                                             _passwordVisible
                                                 ? Icons.visibility
                                                 : Icons.visibility_off,
-                                            color:
-                                                const Color.fromARGB(96, 2, 56, 90),
+                                            color: const Color.fromARGB(
+                                                96, 2, 56, 90),
                                             size: 20,
                                           ),
                                           onPressed: () {
