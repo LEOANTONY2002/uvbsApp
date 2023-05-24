@@ -19,6 +19,7 @@ import 'package:uvbs/screens/ecom/Shipping.dart';
 // import 'package:uvbs/screens/ecom/UPI.dart';
 import 'package:uvbs/screens/stream/AudioDetail.dart';
 import 'package:uvbs/screens/stream/FavVideoDetail.dart';
+import 'package:uvbs/screens/stream/PreviousVideos.dart';
 import 'package:uvbs/screens/stream/Stream.dart';
 import 'package:uvbs/screens/ecom/Ecom.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -92,6 +93,7 @@ class _MyAppState extends State<MyApp> {
             '/shipping': (context) => const MyShipping(),
             '/orders': (context) => const MyOrders(),
             '/order': (context) => OrderDetail(order: order),
+            '/previous': (context) => const PreviousVideos(),
           },
           theme: ThemeData(
             textTheme: Theme.of(context).textTheme.apply(

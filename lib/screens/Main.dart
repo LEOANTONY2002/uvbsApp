@@ -69,6 +69,14 @@ class _MainState extends State<Main> {
       "link": "/stream"
     },
     {
+      "title": "Previous Videos",
+      "description": "UVBS previous videos",
+      "image": "lib/assets/images/home_vid_svg.png",
+      "btn_icon": "lib/assets/images/home_vid_icon.png",
+      "btn_text": "Watch Now",
+      "link": "/previous"
+    },
+    {
       "title": "Shop",
       "description": "UVBS products",
       "image": "lib/assets/images/home_ecom_svg.png",
@@ -332,7 +340,7 @@ class _MainState extends State<Main> {
                     effect: const ExpandingDotsEffect(
                         activeDotColor: Color.fromARGB(255, 0, 40, 76),
                         dotColor: Color.fromARGB(255, 122, 202, 255)),
-                    count: 2,
+                    count: contents.length,
                   )
                 ],
               ),

@@ -10,6 +10,7 @@ String upsertShipping() {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {
@@ -92,6 +93,7 @@ String createCODOrder() {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {
@@ -242,6 +244,7 @@ String createRPOrder() {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {

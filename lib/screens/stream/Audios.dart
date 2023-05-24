@@ -63,8 +63,9 @@ class _AudiosState extends State<Audios> {
   Widget build(BuildContext context) {
     List? audios =
         Provider.of<AppProvider>(context, listen: false).audios ?? [];
-    var featuredAudio =
-        audios.isNotEmpty ? audios[Random().nextInt(audios.length - 1)] : "";
+    var featuredAudio = audios.isNotEmpty
+        ? audios[Random().nextInt(audios.length == 1 ? 1 : audios.length - 1)]
+        : "";
 
     if (catIndex == 0) {
       filterAudios = audios;

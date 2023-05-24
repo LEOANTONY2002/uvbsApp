@@ -65,7 +65,8 @@ class _ProductsState extends State<Products> {
         Provider.of<AppProvider>(context, listen: false).products ?? [];
     var featuredProduct = products.isNotEmpty
         ? products.length > 1
-            ? products[Random().nextInt(products.length - 1)]
+            ? products[Random()
+                .nextInt(products.length == 1 ? 1 : products.length - 1)]
             : products[0]
         : '';
 
@@ -343,7 +344,8 @@ class _ProductsState extends State<Products> {
                                                       },
                                                       child: Container(
                                                         padding:
-                                                            const EdgeInsets.all(10),
+                                                            const EdgeInsets
+                                                                .all(10),
                                                         width: MediaQuery.of(
                                                                         context)
                                                                     .size

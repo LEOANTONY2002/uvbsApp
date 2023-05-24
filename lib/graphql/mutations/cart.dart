@@ -10,6 +10,7 @@ String addToCart() {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {
@@ -89,6 +90,7 @@ String removeFromCart() {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {

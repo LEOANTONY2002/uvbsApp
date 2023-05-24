@@ -10,6 +10,7 @@ String login(String email, String password) {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {
@@ -83,6 +84,7 @@ String signup() {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {
@@ -164,6 +166,7 @@ String updateUser() {
         email
         phone
         password
+        isSubscribed
         createdAt
         updatedAt
         cart {
@@ -236,6 +239,81 @@ Future<QueryResult> updateUserMutation(
   return result;
 }
 
+String updateUserSubscription() {
+  return """
+    mutation UpdateUserSubscription(\$id: String!, \$isSubscribed: Boolean!) {
+      updateUserSubscription(id: \$id, isSubscribed: \$isSubscribed) {
+        id
+        name
+        email
+        phone
+        password
+        isSubscribed
+        createdAt
+        updatedAt
+        cart {
+          id
+          price
+          products {
+            id
+            quantity
+            product {
+              id
+              name
+              description
+              price
+              photo
+            }
+          }
+        }
+        orders {
+          id
+          line1
+          line2
+          city
+          state
+          country
+          zip
+          status
+          products
+          price
+          payment_mode
+          payment_status
+          razorpay_temp_order_id
+          razorpay_payment_id
+          razorpay_order_id
+          razorpay_signature
+          deliveryDate
+          deliveryDate
+          createdAt
+          updatedAt
+        }
+        shipping {
+          id
+          line1
+          line2
+          city
+          state
+          country
+          zip
+        }
+      }
+    }
+  """;
+}
+
+Future<QueryResult> updateUserSubscriptionMutation(String id) async {
+  GraphQLClient client = GraphQLConfig.clientToQuery();
+  QueryResult result = await client.mutate(
+    MutationOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
+        document: gql(updateUserSubscription()),
+        variables: {'id': id, 'isSubscribed': true}),
+  );
+
+  return result;
+}
+
 String deleteUser() {
   return """
     mutation deleteUser(\$id: String!) {
@@ -245,6 +323,7 @@ String deleteUser() {
         email
         phone
         password
+        isSubscribed
         isActive
         createdAt
         updatedAt

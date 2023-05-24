@@ -43,9 +43,7 @@
 		</array>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
-			<string>tez</string>
-			<string>phonepe</string>
-			<string>paytmmp</string>
+  			<string>https</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>

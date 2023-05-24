@@ -43,3 +43,29 @@ Future<QueryResult> getAllVideosMutation() async {
 
   return result;
 }
+
+String getAllPreviousVideos() {
+  return """
+    query AllPreviousVideos {
+      allPreviousVideos {
+        id
+        title
+        year
+        thumbnail
+        url
+        createdAt
+        updatedAt
+      }
+    }
+  """;
+}
+
+Future<QueryResult> getAllPreviousVideosMutation() async {
+  GraphQLClient client = GraphQLConfig.clientToQuery();
+  QueryResult result = await client.query(QueryOptions(
+    fetchPolicy: FetchPolicy.networkOnly,
+    document: gql(getAllPreviousVideos()),
+  ));
+
+  return result;
+}
