@@ -116,13 +116,6 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
 
           await Stripe.instance.initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
-            applePay: Stripe.instance.isApplePaySupported.value,
-            googlePay: true,
-            style: ThemeMode.dark,
-            testEnv: true,
-            currencyCode: "INR",
-            merchantCountryCode: "IN",
-            customFlow: true,
             billingDetails: BillingDetails(
                 email: user?['email'],
                 name: user?['name'],
@@ -136,6 +129,8 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                     state: user?['shipping']['state'])),
             merchantDisplayName: 'UVBS',
             paymentIntentClientSecret: clientSecret,
+            googlePay: const PaymentSheetGooglePay(
+                merchantCountryCode: "IN", currencyCode: "INR"),
           ));
 
           await Stripe.instance.presentPaymentSheet();

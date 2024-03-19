@@ -8,6 +8,7 @@ class AppProvider extends ChangeNotifier {
   List? products;
   dynamic product;
   dynamic order;
+  dynamic asset;
 
   AppProvider({this.videos, this.video});
 
@@ -71,5 +72,10 @@ class AppProvider extends ChangeNotifier {
 
   void clearOrder() {
     order = null;
+  }
+
+  void addAsset(dynamic payload) {
+    asset = payload;
+    notifyListeners();
   }
 }

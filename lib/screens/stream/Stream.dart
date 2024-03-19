@@ -106,6 +106,7 @@ class _StreamState extends State<Stream> {
           });
     }
 
+// ignore_for_file: avoid_print
     Future<void> checkout() async {
       try {
         var paymentIndent = await generateStripePaymentIndentMutation(200);
@@ -123,13 +124,10 @@ class _StreamState extends State<Stream> {
 
           await Stripe.instance.initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
-            applePay: Stripe.instance.isApplePaySupported.value,
-            googlePay: true,
+            customFlow: false,
+            googlePay: const PaymentSheetGooglePay(
+                merchantCountryCode: "IN", currencyCode: "INR"),
             style: ThemeMode.dark,
-            testEnv: true,
-            currencyCode: "INR",
-            merchantCountryCode: "IN",
-            customFlow: true,
             billingDetails: BillingDetails(
               email: user?['email'],
               name: user?['name'],
@@ -140,6 +138,7 @@ class _StreamState extends State<Stream> {
           ));
 
           await Stripe.instance.presentPaymentSheet();
+          // await Stripe.instance.confirmPaymentSheetPayment();
 
           updateUserSubscriptionMutation(user?['id']).then((value) {
             if (value.hasException) {
@@ -157,8 +156,14 @@ class _StreamState extends State<Stream> {
               });
             }
           });
+
+          // print("SUCCESSSSSSSSSSSSSSSSSSSS");
+          // setState(() {
+          //   loading = false;
+          // });
         }
       } catch (e) {
+        print(e.toString());
         setState(() {
           loading = false;
         });
