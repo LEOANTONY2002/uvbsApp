@@ -20,9 +20,11 @@ import 'package:uvbs/screens/ecom/Shipping.dart';
 import 'package:uvbs/screens/stream/AudioDetail.dart';
 import 'package:uvbs/screens/stream/FavVideoDetail.dart';
 import 'package:uvbs/screens/stream/PreviousVideos.dart';
-import 'package:uvbs/screens/stream/Stream.dart';
+// import 'package:uvbs/screens/stream/Stream.dart';
 import 'package:uvbs/screens/ecom/Ecom.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:uvbs/screens/stream/Stream.dart';
+import 'package:uvbs/screens/stream/StreamUPI.dart';
 import 'package:uvbs/screens/stream/VideoDetail.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -34,8 +36,7 @@ main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
   Stripe.publishableKey =
-      "pk_live_51N6wNwSFFOdrOSeflElr61Sbt6tOcuJceWr0xo7EAToQuCp8hE0hnwa9y3JQUGsVknI4wTEI25mujw48zMzTbHkv00S7PHmf9N";
-  // pk_test_51N6wNwSFFOdrOSefwY70FBAabwhctHVgDcdCOHgo9PmigQJouUSnE44f1rUi6qFHUKshle3gwnbgyYZxNtkNevH5007Z4dTRLf
+      "pk_live_51OwTNnSAOUNbbX2Q0wVdJpriy3Yt3uPe5avisegb8xIj2iR0C7wEi35nJGp5LVI5mcQ863w6P14GKIS5EHmPbMP000rYfu86Ah";
   Stripe.merchantIdentifier = 'merchant.com.UVBS';
   const GooglePayInitParams(merchantName: "UVBS", countryCode: "IN");
 
@@ -84,6 +85,7 @@ class _MyAppState extends State<MyApp> {
             '/home': (context) => const Main(),
             '/profile': (context) => const Profile(),
             '/stream': (context) => const Stream(),
+            '/streamUPI': (context) => const StreamUPI(),
             '/video': (context) => VideoDetail(vid: video),
             '/favVideo': (context) => FavVideoDetail(vid: video),
             '/audio': (context) => AudioDetail(aud: audio),

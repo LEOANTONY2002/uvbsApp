@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:uvbs/colors.dart';
 import 'package:uvbs/components/ecom/shipping.dart';
 import 'package:uvbs/graphql/mutations/order.dart';
+import 'package:uvbs/providers/provider.dart';
 import 'package:uvbs/providers/userProvider.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
@@ -23,6 +24,7 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context, listen: false).user;
+    var asset = Provider.of<AppProvider>(context).asset;
     List? cartProducts = user?['cart']?['products'] ?? [];
     int totalPrice = cartProducts!.isNotEmpty
         ? cartProducts
@@ -129,14 +131,12 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                     state: user?['shipping']['state'])),
             merchantDisplayName: 'UVBS',
             paymentIntentClientSecret: clientSecret,
-            googlePay: const PaymentSheetGooglePay(
-                merchantCountryCode: "IN", currencyCode: "INR"),
           ));
 
           await Stripe.instance.presentPaymentSheet();
 
           String products = jsonEncode(cartProducts);
-          createRPOrderMutation(
+          await createRPOrderMutation(
                   user?['id'],
                   user?['shipping']['line1'],
                   user?['shipping']['line2'],
@@ -639,88 +639,94 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                                       const SizedBox(
                                         height: 30,
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            loading = true;
-                                          });
+                                      asset?['isPaymentOnline']
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  loading = true;
+                                                });
 
-                                          // generateRPOrderIdMutation(totalPrice)
-                                          //     .then((value) {
-                                          //   if (value.hasException) {
-                                          //     setState(() {
-                                          //       loading = false;
-                                          //       openBottomSheet(
-                                          //           "Something went wrong!");
-                                          //     });
-                                          //   }
-                                          //   if (value.data != null) {
-                                          //     setState(() {
-                                          //       tempOrderId = value.data![
-                                          //           'generateRPOrderId']['id'];
-                                          //     });
-                                          //     Razorpay razorpay = Razorpay();
-                                          //     var options = {
-                                          //       'key':
-                                          //           'rzp_test_5GvNFRqm7IoqBP',
-                                          //       'amount': RPAmount,
-                                          //       'name': 'UVBS.',
-                                          //       'description': 'UVBS products',
-                                          //       'order_id':
-                                          //           '${value.data!['generateRPOrderId']['id']}',
-                                          //       'retry': {
-                                          //         'enabled': false,
-                                          //         // 'max_count': 1
-                                          //       },
-                                          //       'send_sms_hash': true,
-                                          //       'prefill': {
-                                          //         'contact': '${user['phone']}',
-                                          //         'email': '${user['email']}'
-                                          //       }
-                                          //     };
-                                          //     razorpay.on(
-                                          //         Razorpay.EVENT_PAYMENT_ERROR,
-                                          //         handlePaymentErrorResponse);
-                                          //     razorpay.on(
-                                          //         Razorpay
-                                          //             .EVENT_PAYMENT_SUCCESS,
-                                          //         handlePaymentSuccessResponse);
-                                          //     razorpay.open(options);
-                                          //   }
-                                          // });
+                                                // generateRPOrderIdMutation(totalPrice)
+                                                //     .then((value) {
+                                                //   if (value.hasException) {
+                                                //     setState(() {
+                                                //       loading = false;
+                                                //       openBottomSheet(
+                                                //           "Something went wrong!");
+                                                //     });
+                                                //   }
+                                                //   if (value.data != null) {
+                                                //     setState(() {
+                                                //       tempOrderId = value.data![
+                                                //           'generateRPOrderId']['id'];
+                                                //     });
+                                                //     Razorpay razorpay = Razorpay();
+                                                //     var options = {
+                                                //       'key':
+                                                //           'rzp_test_5GvNFRqm7IoqBP',
+                                                //       'amount': RPAmount,
+                                                //       'name': 'UVBS.',
+                                                //       'description': 'UVBS products',
+                                                //       'order_id':
+                                                //           '${value.data!['generateRPOrderId']['id']}',
+                                                //       'retry': {
+                                                //         'enabled': false,
+                                                //         // 'max_count': 1
+                                                //       },
+                                                //       'send_sms_hash': true,
+                                                //       'prefill': {
+                                                //         'contact': '${user['phone']}',
+                                                //         'email': '${user['email']}'
+                                                //       }
+                                                //     };
+                                                //     razorpay.on(
+                                                //         Razorpay.EVENT_PAYMENT_ERROR,
+                                                //         handlePaymentErrorResponse);
+                                                //     razorpay.on(
+                                                //         Razorpay
+                                                //             .EVENT_PAYMENT_SUCCESS,
+                                                //         handlePaymentSuccessResponse);
+                                                //     razorpay.open(options);
+                                                //   }
+                                                // });
 
-                                          checkout();
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 40),
-                                          child: Material(
-                                            elevation: 30,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(100)),
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: 55,
-                                              alignment: Alignment.center,
-                                              decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 0, 23, 42),
+                                                checkout();
+                                              },
+                                              child: Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 40),
+                                                child: Material(
+                                                  elevation: 30,
                                                   borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              100))),
-                                              child: const Text(
-                                                "Pay Now",
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(100)),
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height: 55,
+                                                    alignment: Alignment.center,
+                                                    decoration: const BoxDecoration(
+                                                        color: Color.fromARGB(
+                                                            255, 0, 23, 42),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    100))),
+                                                    child: const Text(
+                                                      "Pay Now",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
+                                            )
+                                          : const SizedBox(
+                                              height: 30,
                                             ),
-                                          ),
-                                        ),
-                                      ),
                                       const SizedBox(
                                         height: 30,
                                       )

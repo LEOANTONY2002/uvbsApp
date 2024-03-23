@@ -43,13 +43,12 @@ class _MainState extends State<Main> {
             Provider.of<UserProvider>(context, listen: false).user;
         String email = user?['email'] ?? "";
         String password = user?['password'] ?? "";
-
+        setState(() {
+          loading = true;
+          error = false;
+          msg = "";
+        });
         loginMutation(email, password).then((value) {
-          setState(() {
-            loading = true;
-            error = false;
-            msg = "";
-          });
           if (value.hasException) {
             setState(() {
               loading = false;
@@ -64,32 +63,31 @@ class _MainState extends State<Main> {
 
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(updatedUser);
-          }
-        });
 
-        getAllAssetsMutation().then((value) {
-          if (value.hasException) {
-            setState(() {
-              loading = false;
-            });
-          }
+            getAllAssetsMutation().then((value) {
+              if (value.hasException) {
+                setState(() {
+                  loading = false;
+                });
+              }
 
-          if (value.data != null) {
-            setState(() {
-              loading = false;
-            });
-            var allAssets = value.data?['allAssets'];
+              if (value.data != null) {
+                var allAssets = value.data?['allAssets'];
+                setState(() {
+                  Provider.of<AppProvider>(context, listen: false)
+                      .addAsset(allAssets[0]);
+                });
+                setState(() {
+                  loading = false;
+                });
+              }
 
-            setState(() {
-              Provider.of<AppProvider>(context, listen: false)
-                  .addAsset(allAssets[0]);
-            });
-          }
-
-          if (value.data == null) {
-            setState(() {
-              loading = false;
-              error = true;
+              if (value.data == null) {
+                setState(() {
+                  loading = false;
+                  error = true;
+                });
+              }
             });
           }
         });
@@ -99,18 +97,17 @@ class _MainState extends State<Main> {
 
   int currentIndex = 0;
   final CarouselController carouselController = CarouselController();
-  String themeTitle = "";
-  String themeDescription = "";
-  String themePhoto = "";
 
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? user = Provider.of<UserProvider>(context).user;
     dynamic asset = Provider.of<AppProvider>(context).asset;
     String name = user?['name'] ?? '';
-    themeTitle = asset?['themeTitle'] ?? "";
-    themeDescription = asset?['themeDescription'] ?? "";
-    themePhoto = asset?['themePhoto'] ?? "";
+    String themeTitle = asset?['themeTitle'] ?? "";
+    String themeDescription = asset?['themeDescription'] ?? "";
+    String themePhoto = asset?['themePhoto'] ?? "";
+    bool isPaymentOnline = asset?['isPaymentOnline'] ?? false;
+
     List contents = [
       {
         "id": 1,
@@ -119,7 +116,7 @@ class _MainState extends State<Main> {
         "image": themePhoto,
         "btn_icon": "lib/assets/images/home_vid_icon.png",
         "btn_text": "Watch Now",
-        "link": "/stream"
+        "link": isPaymentOnline ? "/stream" : "/streamUPI"
       },
       {
         "id": 2,
@@ -296,28 +293,55 @@ class _MainState extends State<Main> {
                                                 child: Column(
                                                   children: [
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 40),
-                                                      child: c['image']!
-                                                              .toString()
-                                                              .startsWith(
-                                                                  "http")
-                                                          ? Image.network(
-                                                              themePhoto,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                              width: 250,
-                                                              height: 250,
-                                                            )
-                                                          : Image.asset(
-                                                              c['image'],
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                              width: 250,
-                                                              height: 250,
-                                                            ),
-                                                    ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 40),
+                                                        child: SizedBox(
+                                                          width: 250,
+                                                          height: 250,
+                                                          child: c['image']!
+                                                                      .toString() ==
+                                                                  ""
+                                                              ? Container(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(80),
+                                                                  child:
+                                                                      const CircularProgressIndicator(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            1,
+                                                                            145,
+                                                                            255),
+                                                                  ),
+                                                                )
+                                                              : c['image']!
+                                                                      .toString()
+                                                                      .startsWith(
+                                                                          "http")
+                                                                  ? Image
+                                                                      .network(
+                                                                      c['image'],
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                      width:
+                                                                          250,
+                                                                      height:
+                                                                          250,
+                                                                    )
+                                                                  : Image.asset(
+                                                                      c['image'],
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                      width:
+                                                                          250,
+                                                                      height:
+                                                                          250,
+                                                                    ),
+                                                        )),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(

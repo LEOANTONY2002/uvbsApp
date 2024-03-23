@@ -358,7 +358,7 @@ class _VideosState extends State<Videos> {
                             )
                           : Container(
                               alignment: Alignment.center,
-                              child: const Text("No videos found!"),
+                              child: const Text("Yet to be released"),
                             ))
                   : Container(
                       width: MediaQuery.of(context).size.width,

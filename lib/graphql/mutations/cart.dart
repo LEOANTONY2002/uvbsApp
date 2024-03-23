@@ -11,6 +11,8 @@ String addToCart() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {
@@ -91,6 +93,8 @@ String removeFromCart() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {

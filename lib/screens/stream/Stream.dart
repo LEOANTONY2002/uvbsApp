@@ -111,6 +111,8 @@ class _StreamState extends State<Stream> {
       try {
         var paymentIndent = await generateStripePaymentIndentMutation(200);
         if (paymentIndent.hasException) {
+          // ignore: avoid_print
+          print(paymentIndent.exception);
           setState(() {
             loading = false;
             openModelBottemSheet("something went wrong!");
@@ -125,8 +127,6 @@ class _StreamState extends State<Stream> {
           await Stripe.instance.initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
             customFlow: false,
-            googlePay: const PaymentSheetGooglePay(
-                merchantCountryCode: "IN", currencyCode: "INR"),
             style: ThemeMode.dark,
             billingDetails: BillingDetails(
               email: user?['email'],
@@ -140,7 +140,7 @@ class _StreamState extends State<Stream> {
           await Stripe.instance.presentPaymentSheet();
           // await Stripe.instance.confirmPaymentSheetPayment();
 
-          updateUserSubscriptionMutation(user?['id']).then((value) {
+          await updateUserSubscriptionMutation(user?['id'], pid).then((value) {
             if (value.hasException) {
               setState(() {
                 loading = false;

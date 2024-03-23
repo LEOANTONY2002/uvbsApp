@@ -11,6 +11,8 @@ String upsertShipping() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {
@@ -94,6 +96,8 @@ String createCODOrder() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {
@@ -245,6 +249,8 @@ String createRPOrder() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {

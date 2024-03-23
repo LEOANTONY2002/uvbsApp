@@ -11,6 +11,8 @@ String login(String email, String password) {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {
@@ -85,6 +87,8 @@ String signup() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {
@@ -167,6 +171,8 @@ String updateUser() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {
@@ -241,14 +247,16 @@ Future<QueryResult> updateUserMutation(
 
 String updateUserSubscription() {
   return """
-    mutation UpdateUserSubscription(\$id: String!, \$isSubscribed: Boolean!) {
-      updateUserSubscription(id: \$id, isSubscribed: \$isSubscribed) {
+    mutation UpdateUserSubscription(\$id: String!, \$isSubscribed: Boolean!, \$pid: String!) {
+      updateUserSubscription(id: \$id, isSubscribed: \$isSubscribed, pid: \$pid) {
         id
         name
         email
         phone
         password
         isSubscribed
+        pid
+        isPaid
         createdAt
         updatedAt
         cart {
@@ -302,13 +310,91 @@ String updateUserSubscription() {
   """;
 }
 
-Future<QueryResult> updateUserSubscriptionMutation(String id) async {
+Future<QueryResult> updateUserSubscriptionMutation(
+    String id, String pid) async {
   GraphQLClient client = GraphQLConfig.clientToQuery();
   QueryResult result = await client.mutate(
     MutationOptions(
         fetchPolicy: FetchPolicy.networkOnly,
         document: gql(updateUserSubscription()),
-        variables: {'id': id, 'isSubscribed': true}),
+        variables: {'id': id, 'isSubscribed': true, 'pid': pid}),
+  );
+
+  return result;
+}
+
+String updateUserPaymentConfirmation() {
+  return """
+    mutation updateUserPaymentConfirmation(\$id: String!, \$isPaid: Boolean!) {
+      updateUserPaymentConfirmation(id: \$id, isPaid: \$isPaid) {
+        id
+        name
+        email
+        phone
+        password
+        isSubscribed
+        pid
+        isPaid
+        createdAt
+        updatedAt
+        cart {
+          id
+          price
+          products {
+            id
+            quantity
+            product {
+              id
+              name
+              description
+              price
+              photo
+            }
+          }
+        }
+        orders {
+          id
+          line1
+          line2
+          city
+          state
+          country
+          zip
+          status
+          products
+          price
+          payment_mode
+          payment_status
+          razorpay_temp_order_id
+          razorpay_payment_id
+          razorpay_order_id
+          razorpay_signature
+          deliveryDate
+          deliveryDate
+          createdAt
+          updatedAt
+        }
+        shipping {
+          id
+          line1
+          line2
+          city
+          state
+          country
+          zip
+        }
+      }
+    }
+  """;
+}
+
+Future<QueryResult> updateUserPaymentConfirmationMutation(String id) async {
+  GraphQLClient client = GraphQLConfig.clientToQuery();
+  QueryResult result = await client.mutate(
+    MutationOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
+        document: gql(updateUserPaymentConfirmation()),
+        variables: {'id': id, 'isPaid': true}),
   );
 
   return result;
@@ -324,6 +410,8 @@ String deleteUser() {
         phone
         password
         isSubscribed
+        pid
+        isPaid
         isActive
         createdAt
         updatedAt

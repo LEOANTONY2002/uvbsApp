@@ -9,6 +9,8 @@ String getAllAssets() {
         themeTitle
         themeDescription
         themePhoto
+        isPaymentOnline
+        upi
         createdAt
         updatedAt
       }

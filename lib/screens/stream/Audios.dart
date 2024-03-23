@@ -573,7 +573,7 @@ class _AudiosState extends State<Audios> {
                               ),
                             )
                           : Container(
-                              child: const Text("No videos found!"),
+                              child: const Text("Yet to be released"),
                             ))
               : Container(
                   width: MediaQuery.of(context).size.width,
