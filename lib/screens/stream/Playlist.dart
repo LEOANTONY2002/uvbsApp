@@ -344,7 +344,7 @@ class _PlaylistState extends State<Playlist> {
                                 height: 10,
                               ),
                               const Text(
-                                "Add your favorite videos",
+                                "Add your favorite audios",
                                 style: TextStyle(
                                     color: Color.fromARGB(110, 33, 149, 243)),
                               ),

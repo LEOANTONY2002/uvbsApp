@@ -16,15 +16,14 @@ import 'package:uvbs/screens/ecom/OrderDetail.dart';
 import 'package:uvbs/screens/ecom/Orders.dart';
 import 'package:uvbs/screens/ecom/ProductDetail.dart';
 import 'package:uvbs/screens/ecom/Shipping.dart';
-// import 'package:uvbs/screens/ecom/UPI.dart';
 import 'package:uvbs/screens/stream/AudioDetail.dart';
 import 'package:uvbs/screens/stream/FavVideoDetail.dart';
 import 'package:uvbs/screens/stream/PreviousVideos.dart';
-// import 'package:uvbs/screens/stream/Stream.dart';
 import 'package:uvbs/screens/ecom/Ecom.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:uvbs/screens/stream/Stream.dart';
 import 'package:uvbs/screens/stream/StreamUPI.dart';
+import 'package:uvbs/screens/stream/StreamPhonePe.dart';
 import 'package:uvbs/screens/stream/VideoDetail.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -86,6 +85,7 @@ class _MyAppState extends State<MyApp> {
             '/profile': (context) => const Profile(),
             '/stream': (context) => const Stream(),
             '/streamUPI': (context) => const StreamUPI(),
+            '/streamPhonePe': (context) => const StreamPhonePe(),
             '/video': (context) => VideoDetail(vid: video),
             '/favVideo': (context) => FavVideoDetail(vid: video),
             '/audio': (context) => AudioDetail(aud: audio),

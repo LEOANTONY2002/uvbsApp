@@ -10,15 +10,16 @@ import 'package:uvbs/screens/stream/Audios.dart';
 import 'package:uvbs/screens/stream/Favs.dart';
 import 'package:uvbs/screens/stream/Playlist.dart';
 import 'package:uvbs/screens/stream/Videos.dart';
+import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
 
-class Stream extends StatefulWidget {
-  const Stream({super.key});
+class StreamPhonePe extends StatefulWidget {
+  const StreamPhonePe({super.key});
 
   @override
-  State<Stream> createState() => _StreamState();
+  State<StreamPhonePe> createState() => _StreamPhonePeState();
 }
 
-class _StreamState extends State<Stream> {
+class _StreamPhonePeState extends State<StreamPhonePe> {
   int index = 0;
   bool loading = false;
   bool isSubscribed = false;
@@ -45,6 +46,18 @@ class _StreamState extends State<Stream> {
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context, listen: false).user;
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    String body = "";
+    String callback = "flutterDemoApp";
+    String checksum = "";
+
+    Map<String, String> headers = {};
+    List<String> environmentList = <String>['SANDBOX', 'PRODUCTION'];
+    bool enableLogs = true;
+    Object? result;
+    String environmentValue = 'SANDBOX';
+    String appId = "";
+    String merchantId = "";
+    String packageName = "com.phonepe.simulator";
 
     PersistentBottomSheetController openBottomSheet(String msg) {
       return scaffoldKey.currentState!.showBottomSheet(
@@ -108,60 +121,7 @@ class _StreamState extends State<Stream> {
 
     // ignore_for_file: avoid_print
     Future<void> checkout() async {
-      try {
-        var paymentIndent = await generateStripePaymentIndentMutation(200);
-        if (paymentIndent.hasException) {
-          print(paymentIndent.exception);
-          setState(() {
-            loading = false;
-            openModelBottemSheet("something went wrong!");
-          });
-        }
-        if (paymentIndent.data != null) {
-          String pid =
-              paymentIndent.data?['generateStripePaymentIndent']?['id'];
-          String clientSecret = paymentIndent
-              .data?['generateStripePaymentIndent']?['client_secret'];
-
-          await Stripe.instance.initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-            customFlow: false,
-            style: ThemeMode.dark,
-            billingDetails: BillingDetails(
-              email: user?['email'],
-              name: user?['name'],
-              phone: user?['phone'],
-            ),
-            merchantDisplayName: 'UVBS',
-            paymentIntentClientSecret: clientSecret,
-          ));
-
-          await Stripe.instance.presentPaymentSheet();
-          // await Stripe.instance.confirmPaymentSheetPayment();
-
-          await updateUserSubscriptionMutation(user?['id'], pid).then((value) {
-            if (value.hasException) {
-              setState(() {
-                loading = false;
-              });
-              openBottomSheet(value.exception!.graphqlErrors[0].message);
-            }
-            if (value.data != null) {
-              setState(() {
-                loading = false;
-                Provider.of<UserProvider>(context, listen: false)
-                    .setUser(value.data!['updateUserSubscription']);
-                isSubscribed = true;
-              });
-            }
-          });
-
-          // print("SUCCESSSSSSSSSSSSSSSSSSSS");
-          // setState(() {
-          //   loading = false;
-          // });
-        }
-      } catch (e) {
+      try {} catch (e) {
         print(e.toString());
         setState(() {
           loading = false;

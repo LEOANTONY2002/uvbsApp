@@ -3,11 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:uvbs/colors.dart';
 import 'package:uvbs/graphql/mutations/user.dart';
-import 'package:uvbs/models/error.dart';
 import 'package:uvbs/prefs.dart';
-import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:uvbs/providers/userProvider.dart';
 
 class Login extends StatefulWidget {

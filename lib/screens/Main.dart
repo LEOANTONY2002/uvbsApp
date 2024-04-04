@@ -116,7 +116,7 @@ class _MainState extends State<Main> {
         "image": themePhoto,
         "btn_icon": "lib/assets/images/home_vid_icon.png",
         "btn_text": "Watch Now",
-        "link": isPaymentOnline ? "/stream" : "/streamUPI"
+        "link": isPaymentOnline ? "/streamPhonePe" : "/streamUPI"
       },
       {
         "id": 2,
