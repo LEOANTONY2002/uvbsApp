@@ -45,11 +45,14 @@ class _EcomState extends State<Ecom> {
                 ]),
             child: const Icon(
               Icons.home_rounded,
+              color: Colors.white,
               size: 30,
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
+        surfaceTintColor: Colors.white,
+        shadowColor: const Color.fromARGB(206, 0, 0, 0),
         shape: const CircularNotchedRectangle(),
         notchMargin: 15,
         elevation: 20,
@@ -68,9 +71,21 @@ class _EcomState extends State<Ecom> {
                       index = 0;
                     });
                   },
-                  child: Icon(
-                    Icons.storefront_outlined,
-                    color: index == 0 ? Colors.black : Colors.black26,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.storefront_outlined,
+                        color: index == 0 ? Colors.black : Colors.black26,
+                      ),
+                      Text(
+                        "Products",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: index == 0 ? Colors.black : Colors.black26,
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 MaterialButton(
@@ -83,9 +98,21 @@ class _EcomState extends State<Ecom> {
                       index = 1;
                     });
                   },
-                  child: Icon(
-                    Icons.shopping_cart_outlined,
-                    color: index == 1 ? Colors.black : Colors.black26,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        color: index == 1 ? Colors.black : Colors.black26,
+                      ),
+                      Text(
+                        "Cart",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: index == 1 ? Colors.black : Colors.black26,
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 // Padding(

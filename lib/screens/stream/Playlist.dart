@@ -174,7 +174,7 @@ class _PlaylistState extends State<Playlist> {
                                                       elevation: 10,
                                                       borderRadius:
                                                           const BorderRadius
-                                                                  .all(
+                                                              .all(
                                                               Radius.circular(
                                                                   20)),
                                                       child: Container(
@@ -187,8 +187,7 @@ class _PlaylistState extends State<Playlist> {
                                                             BoxDecoration(
                                                           borderRadius:
                                                               const BorderRadius
-                                                                      .all(
-                                                                  Radius
+                                                                  .all(Radius
                                                                       .circular(
                                                                           20)),
                                                           image:
@@ -230,7 +229,7 @@ class _PlaylistState extends State<Playlist> {
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
-                                                                fontSize: 17),
+                                                                fontSize: 16),
                                                           ),
                                                         ),
                                                         SizedBox(
@@ -411,6 +410,10 @@ class _PlaylistState extends State<Playlist> {
                                 ),
                               ),
                               Slider(
+                                activeColor:
+                                    const Color.fromARGB(255, 0, 139, 252),
+                                inactiveColor:
+                                    const Color.fromARGB(255, 219, 242, 255),
                                 onChanged: (v) {
                                   setState(() {
                                     value = v;

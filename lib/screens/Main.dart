@@ -116,7 +116,7 @@ class _MainState extends State<Main> {
         "image": themePhoto,
         "btn_icon": "lib/assets/images/home_vid_icon.png",
         "btn_text": "Watch Now",
-        "link": isPaymentOnline ? "/streamPhonePe" : "/streamUPI"
+        "link": isPaymentOnline ? "/streamStripe" : "/streamUPI"
       },
       {
         "id": 2,
@@ -307,7 +307,8 @@ class _MainState extends State<Main> {
                                                                   height: 50,
                                                                   padding:
                                                                       const EdgeInsets
-                                                                          .all(80),
+                                                                          .all(
+                                                                          80),
                                                                   child:
                                                                       const CircularProgressIndicator(
                                                                     color: Color
@@ -413,7 +414,7 @@ class _MainState extends State<Main> {
                                                               : 12),
                                                       borderRadius:
                                                           const BorderRadius
-                                                                  .all(
+                                                              .all(
                                                               Radius.circular(
                                                                   50)),
                                                       child: Row(

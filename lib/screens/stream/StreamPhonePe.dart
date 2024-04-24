@@ -10,7 +10,7 @@ import 'package:uvbs/screens/stream/Audios.dart';
 import 'package:uvbs/screens/stream/Favs.dart';
 import 'package:uvbs/screens/stream/Playlist.dart';
 import 'package:uvbs/screens/stream/Videos.dart';
-import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
+import 'package:phone_pe_pg/phone_pe_pg.dart';
 
 class StreamPhonePe extends StatefulWidget {
   const StreamPhonePe({super.key});
@@ -46,18 +46,11 @@ class _StreamPhonePeState extends State<StreamPhonePe> {
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context, listen: false).user;
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    String body = "";
-    String callback = "flutterDemoApp";
-    String checksum = "";
-
-    Map<String, String> headers = {};
-    List<String> environmentList = <String>['SANDBOX', 'PRODUCTION'];
-    bool enableLogs = true;
-    Object? result;
-    String environmentValue = 'SANDBOX';
-    String appId = "";
-    String merchantId = "";
-    String packageName = "com.phonepe.simulator";
+    PhonePePg phonePePg = PhonePePg(
+      isUAT: true, // true for UAT environment, false for production
+      saltKey: 'your_salt_key',
+      saltIndex: 'your_salt_index',
+    );
 
     PersistentBottomSheetController openBottomSheet(String msg) {
       return scaffoldKey.currentState!.showBottomSheet(

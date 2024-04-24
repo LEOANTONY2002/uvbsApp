@@ -11,6 +11,8 @@ String getAllAssets() {
         themePhoto
         isPaymentOnline
         upi
+        termsAndConditions
+        privacyPolicy
         createdAt
         updatedAt
       }

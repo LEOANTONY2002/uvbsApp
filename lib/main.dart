@@ -21,7 +21,7 @@ import 'package:uvbs/screens/stream/FavVideoDetail.dart';
 import 'package:uvbs/screens/stream/PreviousVideos.dart';
 import 'package:uvbs/screens/ecom/Ecom.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:uvbs/screens/stream/Stream.dart';
+import 'package:uvbs/screens/stream/StreamStripe.dart';
 import 'package:uvbs/screens/stream/StreamUPI.dart';
 import 'package:uvbs/screens/stream/StreamPhonePe.dart';
 import 'package:uvbs/screens/stream/VideoDetail.dart';
@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
             '/login': (context) => const Login(),
             '/home': (context) => const Main(),
             '/profile': (context) => const Profile(),
-            '/stream': (context) => const Stream(),
+            '/streamStripe': (context) => const StreamStripe(),
             '/streamUPI': (context) => const StreamUPI(),
             '/streamPhonePe': (context) => const StreamPhonePe(),
             '/video': (context) => VideoDetail(vid: video),

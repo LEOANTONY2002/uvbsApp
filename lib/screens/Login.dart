@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uvbs/graphql/mutations/user.dart';
+import 'package:uvbs/graphql/queries/asset.dart';
 import 'package:uvbs/prefs.dart';
+import 'package:uvbs/providers/provider.dart';
 import 'package:uvbs/providers/userProvider.dart';
 
 class Login extends StatefulWidget {
@@ -72,11 +74,36 @@ class _LoginState extends State<Login> {
     });
   }
 
+  void fetchData() async {
+    getAllAssetsMutation().then((value) {
+      if (value.hasException) {
+        termsAndConditions();
+        privacyPolicy();
+      }
+
+      if (value.data != null) {
+        var allAssets = value.data?['allAssets'];
+        setState(() {
+          Provider.of<AppProvider>(context, listen: false)
+              .addAsset(allAssets[0]);
+          String terms =
+              allAssets[0]['termsAndConditions'].replaceAll('\\n', '\n');
+          tc = terms;
+          pp = allAssets[0]?['privacyPolicy'].replaceAll('\\n', '\n');
+        });
+      }
+
+      if (value.data == null) {
+        termsAndConditions();
+        privacyPolicy();
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    termsAndConditions();
-    privacyPolicy();
+    fetchData();
   }
 
   @override

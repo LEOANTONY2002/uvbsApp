@@ -11,14 +11,14 @@ import 'package:uvbs/screens/stream/Favs.dart';
 import 'package:uvbs/screens/stream/Playlist.dart';
 import 'package:uvbs/screens/stream/Videos.dart';
 
-class Stream extends StatefulWidget {
-  const Stream({super.key});
+class StreamStripe extends StatefulWidget {
+  const StreamStripe({super.key});
 
   @override
-  State<Stream> createState() => _StreamState();
+  State<StreamStripe> createState() => _StreamStripeState();
 }
 
-class _StreamState extends State<Stream> {
+class _StreamStripeState extends State<StreamStripe> {
   int index = 0;
   bool loading = false;
   bool isSubscribed = false;
@@ -288,12 +288,15 @@ class _StreamState extends State<Stream> {
                       ]),
                   child: const Icon(
                     Icons.home_rounded,
+                    color: Colors.white,
                     size: 30,
                   ),
                 )),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: BottomAppBar(
+              surfaceTintColor: Colors.white,
+              shadowColor: const Color.fromARGB(206, 0, 0, 0),
               shape: const CircularNotchedRectangle(),
               notchMargin: 15,
               elevation: 20,
@@ -324,6 +327,7 @@ class _StreamState extends State<Stream> {
                               Text(
                                 "Videos",
                                 style: TextStyle(
+                                  fontSize: 12,
                                   color: index == 0
                                       ? Colors.black
                                       : Colors.black26,
@@ -351,6 +355,7 @@ class _StreamState extends State<Stream> {
                             Text(
                               "Favs",
                               style: TextStyle(
+                                fontSize: 12,
                                 color:
                                     index == 1 ? Colors.black : Colors.black26,
                               ),
@@ -382,6 +387,7 @@ class _StreamState extends State<Stream> {
                               Text(
                                 "Audios",
                                 style: TextStyle(
+                                  fontSize: 12,
                                   color: index == 2
                                       ? Colors.black
                                       : Colors.black26,
@@ -411,6 +417,7 @@ class _StreamState extends State<Stream> {
                             Text(
                               "Favs",
                               style: TextStyle(
+                                fontSize: 12,
                                 color:
                                     index == 3 ? Colors.black : Colors.black26,
                               ),

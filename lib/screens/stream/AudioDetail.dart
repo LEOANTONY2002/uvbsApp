@@ -16,20 +16,29 @@ class AudioDetail extends StatefulWidget {
 class _AudioDetailState extends State<AudioDetail> {
   final player = AudioPlayer();
 
-  Duration? duration = const Duration(seconds: 0);
+  Duration? duration = Duration(seconds: 0);
   double value = 0;
   var isPlaying = false;
+  var isLoading = true;
+  var comp = "";
+  var total = "";
 
   void initPlayer() async {
     var audio = Provider.of<AppProvider>(context, listen: false).audio;
     await player.setSourceUrl(audio['audioUrl']);
+    await player.resume();
     duration = await player.getDuration();
+    setState(() {
+      isPlaying = true;
+      isLoading = false;
+      comp = "${(value / 60).floor()} : ${(value % 60).floor()}";
+      total = "${duration!.inMinutes} : ${duration!.inSeconds % 60}";
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    widget.aud = Provider.of<AppProvider>(context, listen: false).audio;
     initPlayer();
   }
 
@@ -41,14 +50,19 @@ class _AudioDetailState extends State<AudioDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var audio = Provider.of<AppProvider>(context, listen: false).audio;
-    bool isFav = context
-        .watch<PlaylistProvider>()
+    var audio = Provider.of<AppProvider>(context).audio;
+    bool isFav = Provider.of<PlaylistProvider>(context)
         .playlist!
         .where((f) => f?['id'] == audio?['id'])
         .isNotEmpty;
+    comp = "${(value / 60).floor()} : ${(value % 60).floor()}";
+    total = "${duration!.inMinutes} : ${duration!.inSeconds % 60}";
 
-    initPlayer();
+    player.onPositionChanged.listen((position) {
+      setState(() {
+        value = position.inSeconds.toDouble();
+      });
+    });
 
     return Scaffold(
       body: Container(
@@ -176,63 +190,67 @@ class _AudioDetailState extends State<AudioDetail> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                                "${(value / 60).floor()} : ${(value % 60).floor()}"),
-                            Slider.adaptive(
-                              onChanged: (v) {
-                                setState(() {
-                                  value = v;
-                                });
-                              },
-                              onChangeEnd: (newValue) async {
-                                setState(() {
-                                  value = newValue;
-                                });
-                                player.pause();
-                                await player
-                                    .seek(Duration(seconds: newValue.toInt()));
-                                await player.resume();
-                              },
-                              min: 0.0,
-                              max: duration!.inSeconds.toDouble(),
-                              value: value,
-                            ),
-                            Text(
-                                "${duration!.inMinutes} : ${duration!.inSeconds % 60}"),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                            onTap: () async {
-                              if (isPlaying) {
-                                await player.pause();
-                                setState(() {
-                                  isPlaying = !isPlaying;
-                                });
-                              } else {
-                                setState(() {
-                                  isPlaying = !isPlaying;
-                                });
-                                await player.resume();
-                              }
-
-                              player.onPositionChanged.listen((position) {
-                                setState(() {
-                                  value = position.inSeconds.toDouble();
-                                });
-                              });
-                            },
-                            child: Icon(
-                              isPlaying
-                                  ? Icons.pause_rounded
-                                  : Icons.play_arrow_rounded,
-                              size: 50,
-                            ))
+                        isLoading
+                            ? const CircularProgressIndicator(
+                                color: Color.fromARGB(255, 0, 41, 55),
+                              )
+                            : Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(comp),
+                                      Slider.adaptive(
+                                        activeColor: const Color.fromARGB(
+                                            255, 0, 139, 252),
+                                        inactiveColor: const Color.fromARGB(
+                                            255, 219, 242, 255),
+                                        onChanged: (v) {
+                                          setState(() {
+                                            value = v;
+                                          });
+                                        },
+                                        onChangeEnd: (newValue) async {
+                                          setState(() {
+                                            value = newValue;
+                                          });
+                                          player.pause();
+                                          await player.seek(Duration(
+                                              seconds: newValue.toInt()));
+                                          await player.resume();
+                                        },
+                                        min: 0.0,
+                                        max: duration!.inSeconds.toDouble(),
+                                        value: value,
+                                      ),
+                                      Text(total),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  GestureDetector(
+                                      onTap: () async {
+                                        if (isPlaying) {
+                                          await player.pause();
+                                          setState(() {
+                                            isPlaying = !isPlaying;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            isPlaying = !isPlaying;
+                                          });
+                                          await player.resume();
+                                        }
+                                      },
+                                      child: Icon(
+                                        isPlaying
+                                            ? Icons.pause_rounded
+                                            : Icons.play_arrow_rounded,
+                                        size: 50,
+                                      ))
+                                ],
+                              )
                       ],
                     ),
                   ),

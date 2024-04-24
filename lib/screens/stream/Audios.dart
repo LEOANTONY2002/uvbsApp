@@ -214,7 +214,7 @@ class _AudiosState extends State<Audios> {
                                                             Container(
                                                               padding:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       right: 20,
                                                                       left: 60),
                                                               // width:
@@ -336,7 +336,9 @@ class _AudiosState extends State<Audios> {
                                                 ? "All Songs"
                                                 : catIndex == 1
                                                     ? "Tamil Songs"
-                                                    : "Hindi Songs",
+                                                    : catIndex == 2
+                                                        ? "Hindi Songs"
+                                                        : "Karoke",
                                             style:
                                                 const TextStyle(fontSize: 22),
                                           ),
@@ -356,7 +358,7 @@ class _AudiosState extends State<Audios> {
                                                   margin: const EdgeInsets.only(
                                                       left: 15, bottom: 30),
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       vertical: 12,
                                                       horizontal: 12),
                                                   constraints:
@@ -367,11 +369,11 @@ class _AudiosState extends State<Audios> {
                                                           .circular(100),
                                                       color: catIndex == 0
                                                           ? const Color
-                                                                  .fromARGB(
+                                                              .fromARGB(
                                                               255, 1, 58, 87)
                                                           : const Color
-                                                                  .fromARGB(255,
-                                                              87, 199, 255),
+                                                              .fromARGB(255, 87,
+                                                              199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(
                                                             blurRadius: 20,
@@ -402,7 +404,7 @@ class _AudiosState extends State<Audios> {
                                                   margin: const EdgeInsets.only(
                                                       left: 15, bottom: 30),
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 15),
                                                   constraints:
@@ -413,11 +415,11 @@ class _AudiosState extends State<Audios> {
                                                           .circular(10),
                                                       color: catIndex == 1
                                                           ? const Color
-                                                                  .fromARGB(
+                                                              .fromARGB(
                                                               255, 1, 58, 87)
                                                           : const Color
-                                                                  .fromARGB(255,
-                                                              87, 199, 255),
+                                                              .fromARGB(255, 87,
+                                                              199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(
                                                             blurRadius: 20,
@@ -448,7 +450,7 @@ class _AudiosState extends State<Audios> {
                                                   margin: const EdgeInsets.only(
                                                       left: 15, bottom: 30),
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 15),
                                                   constraints:
@@ -459,11 +461,11 @@ class _AudiosState extends State<Audios> {
                                                           .circular(10),
                                                       color: catIndex == 2
                                                           ? const Color
-                                                                  .fromARGB(
+                                                              .fromARGB(
                                                               255, 1, 58, 87)
                                                           : const Color
-                                                                  .fromARGB(255,
-                                                              87, 199, 255),
+                                                              .fromARGB(255, 87,
+                                                              199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(
                                                             blurRadius: 20,
@@ -494,7 +496,7 @@ class _AudiosState extends State<Audios> {
                                                   margin: const EdgeInsets.only(
                                                       left: 15, bottom: 30),
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 15),
                                                   constraints:
@@ -505,11 +507,11 @@ class _AudiosState extends State<Audios> {
                                                           .circular(10),
                                                       color: catIndex == 3
                                                           ? const Color
-                                                                  .fromARGB(
+                                                              .fromARGB(
                                                               255, 1, 58, 87)
                                                           : const Color
-                                                                  .fromARGB(255,
-                                                              87, 199, 255),
+                                                              .fromARGB(255, 87,
+                                                              199, 255),
                                                       boxShadow: const [
                                                         BoxShadow(
                                                             blurRadius: 20,
@@ -572,8 +574,8 @@ class _AudiosState extends State<Audios> {
                                 ],
                               ),
                             )
-                          : Container(
-                              child: const Text("Yet to be released"),
+                          : const SizedBox(
+                              child: Text("Yet to be released"),
                             ))
               : Container(
                   width: MediaQuery.of(context).size.width,

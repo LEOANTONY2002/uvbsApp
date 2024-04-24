@@ -118,6 +118,8 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
 
           await Stripe.instance.initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
+            customFlow: false,
+            style: ThemeMode.dark,
             billingDetails: BillingDetails(
                 email: user?['email'],
                 name: user?['name'],
@@ -356,7 +358,7 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                                                   width: 150,
                                                   height: 150,
                                                   margin: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 15),
                                                   decoration:
                                                       const BoxDecoration(
@@ -437,7 +439,7 @@ class _CheckoutStripeState extends State<CheckoutStripe> {
                                                       ],
                                                       borderRadius:
                                                           const BorderRadius
-                                                                  .all(
+                                                              .all(
                                                               Radius.circular(
                                                                   100))),
                                                 ),
